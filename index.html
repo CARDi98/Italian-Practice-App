@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <title>Italian Communication Practice</title>
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#1f6f50">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Italian Practice">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="app">
+    <header>
+      <div>
+        <p class="eyebrow">Maureen’s Italian Communication App</p>
+        <h1>Italian Communication Practice</h1>
+      </div>
+      <button id="autoBtn" class="primary" type="button">Start Commute Mode</button>
+    </header>
+
+    <section class="voice-panel">
+      <label for="italianVoiceSelect"><strong>Italian voice</strong></label>
+      <select id="italianVoiceSelect" aria-label="Italian voice selector">
+        <option value="">Loading Italian voices…</option>
+      </select>
+      <div class="actions compact-actions">
+        <button id="testVoice" type="button">🔊 Test Italian Voice</button>
+        <button id="slowBtn" type="button">Speed: Slow</button>
+        <button id="pauseBtn" type="button">Pause: 8 sec</button>
+      </div>
+      <p class="voice-note">No typing. Read the task, answer out loud, then reveal and listen. Commute Mode speaks the Italian prompt, waits, reveals the answer, and speaks the Italian answer using the same selected voice.</p>
+    </section>
+
+    <section class="chapters" id="chapterButtons" aria-label="Chapters"></section>
+
+    <section class="card" aria-live="polite">
+      <div class="topline">
+        <h2 id="chapterTitle"></h2>
+        <span id="counter"></span>
+      </div>
+      <div class="bar" aria-hidden="true"><div id="progress"></div></div>
+
+      <div class="prompt">
+        <p class="label">Focus</p>
+        <p id="focus" class="focus"></p>
+        <p class="label">Task</p>
+        <p id="instruction" class="instruction"></p>
+        <p class="label">Italian Prompt</p>
+        <p id="question" class="question"></p>
+        <button id="speakQuestion" type="button">🔊 Play Italian Prompt</button>
+      </div>
+
+      <div class="answer">
+        <p class="label">Answer</p>
+        <p id="answerItalian" class="italian"></p>
+        <p id="answerEnglish" class="english"></p>
+        <p id="hint" class="hint"></p>
+        <div class="actions">
+          <button id="showAnswer" type="button">Show / Hide Answer</button>
+          <button id="speakAnswerItalian" type="button">🔊 Play Italian Answer</button>
+          <button id="speakAnswerEnglish" type="button">🔊 Play English</button>
+        </div>
+        <div class="actions rating-actions">
+          <button id="gotIt" type="button">✓ I got it</button>
+          <button id="needPractice" type="button">↻ Need practice</button>
+        </div>
+      </div>
+
+      <nav class="nav" aria-label="Question navigation">
+        <button id="prev" type="button">← Previous</button>
+        <button id="next" class="primary" type="button">Next →</button>
+      </nav>
+    </section>
+
+    <section class="tips">
+      <h3>How to practice</h3>
+      <p><strong>Study Mode:</strong> read the focus and task, answer out loud, then tap Show Answer. <strong>Commute Mode:</strong> choose an Italian voice once, press Start, listen, answer during the pause, and hear the model answer.</p>
+      <p id="stats" class="stats"></p>
+    </section>
+  </main>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

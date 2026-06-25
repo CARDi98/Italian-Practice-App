@@ -1,0 +1,9 @@
+{
+  "name": "Italian Communication Practice v5",
+  "short_name": "Italian v5",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#f7f4ed",
+  "theme_color": "#1f6f50",
+  "icons": []
+}
