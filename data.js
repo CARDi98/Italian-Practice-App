@@ -119,4 +119,326 @@ const chapters = [
       {focus:"Mixed", instruction:"Make the phrase plural.", question:"La mia valigia", answerItalian:"Le mie valigie.", answerEnglish:"My suitcases.", hint:"valigia becomes valigie."}
     ]
   }
+,
+  
+  {
+    "title": "Chapter 9: Numbers 10–120",
+    "items": [
+      {
+        "focus": "Numbers",
+        "instruction": "Say this number in Italian.",
+        "question": "10",
+        "answerItalian": "Dieci.",
+        "answerEnglish": "Ten.",
+        "hint": "Dieci starts the teen pattern."
+      },
+      {
+        "focus": "Numbers",
+        "instruction": "Say this number in Italian.",
+        "question": "20",
+        "answerItalian": "Venti.",
+        "answerEnglish": "Twenty.",
+        "hint": "Venti is the base for ventuno, ventidue, ventitré."
+      },
+      {
+        "focus": "Numbers",
+        "instruction": "Say this number in Italian.",
+        "question": "30",
+        "answerItalian": "Trenta.",
+        "answerEnglish": "Thirty.",
+        "hint": "Thirty-one is trentuno; the final vowel drops before uno and otto."
+      },
+      {
+        "focus": "Numbers",
+        "instruction": "Say this number in Italian.",
+        "question": "40",
+        "answerItalian": "Quaranta.",
+        "answerEnglish": "Forty.",
+        "hint": "Quaranta, not quaranta with a second r sound."
+      },
+      {
+        "focus": "Numbers",
+        "instruction": "Say this number in Italian.",
+        "question": "50",
+        "answerItalian": "Cinquanta.",
+        "answerEnglish": "Fifty.",
+        "hint": "Cinque becomes cinquanta."
+      },
+      {
+        "focus": "Numbers",
+        "instruction": "Say this number in Italian.",
+        "question": "60",
+        "answerItalian": "Sessanta.",
+        "answerEnglish": "Sixty.",
+        "hint": "Double s: sessanta."
+      },
+      {
+        "focus": "Numbers",
+        "instruction": "Say this number in Italian.",
+        "question": "70",
+        "answerItalian": "Settanta.",
+        "answerEnglish": "Seventy.",
+        "hint": "Double t: settanta."
+      },
+      {
+        "focus": "Numbers",
+        "instruction": "Say this number in Italian.",
+        "question": "80",
+        "answerItalian": "Ottanta.",
+        "answerEnglish": "Eighty.",
+        "hint": "Otto becomes ottanta."
+      },
+      {
+        "focus": "Numbers",
+        "instruction": "Say this number in Italian.",
+        "question": "90",
+        "answerItalian": "Novanta.",
+        "answerEnglish": "Ninety.",
+        "hint": "Novanta is the base for 91–99."
+      },
+      {
+        "focus": "Numbers",
+        "instruction": "Say this number in Italian.",
+        "question": "100",
+        "answerItalian": "Cento.",
+        "answerEnglish": "One hundred.",
+        "hint": "Cento stays attached in larger numbers."
+      },
+      {
+        "focus": "Numbers",
+        "instruction": "Say this number in Italian.",
+        "question": "101",
+        "answerItalian": "Centouno.",
+        "answerEnglish": "One hundred one.",
+        "hint": "Cento + uno becomes centouno."
+      },
+      {
+        "focus": "Numbers",
+        "instruction": "Say this number in Italian.",
+        "question": "120",
+        "answerItalian": "Centoventi.",
+        "answerEnglish": "One hundred twenty.",
+        "hint": "Cento + venti = centoventi."
+      }
+    ]
+  },
+  {
+    "title": "Chapter 10: Alphabet & Pronunciation",
+    "items": [
+      {
+        "focus": "Alphabet",
+        "instruction": "Say this Italian letter name.",
+        "question": "A",
+        "answerItalian": "A.",
+        "answerEnglish": "A.",
+        "hint": "Italian vowels are clean and steady."
+      },
+      {
+        "focus": "Alphabet",
+        "instruction": "Say this Italian letter name.",
+        "question": "B",
+        "answerItalian": "Bi.",
+        "answerEnglish": "B.",
+        "hint": "B is bi."
+      },
+      {
+        "focus": "Alphabet",
+        "instruction": "Say this Italian letter name.",
+        "question": "C",
+        "answerItalian": "Ci.",
+        "answerEnglish": "C.",
+        "hint": "C is ci."
+      },
+      {
+        "focus": "Alphabet",
+        "instruction": "Say this Italian letter name.",
+        "question": "D",
+        "answerItalian": "Di.",
+        "answerEnglish": "D.",
+        "hint": "D is di."
+      },
+      {
+        "focus": "Alphabet",
+        "instruction": "Say this Italian letter name.",
+        "question": "E",
+        "answerItalian": "E.",
+        "answerEnglish": "E.",
+        "hint": "E is a clear Italian vowel."
+      },
+      {
+        "focus": "Alphabet",
+        "instruction": "Say this Italian letter name.",
+        "question": "G",
+        "answerItalian": "Gi.",
+        "answerEnglish": "G.",
+        "hint": "G is gi."
+      },
+      {
+        "focus": "Alphabet",
+        "instruction": "Say this Italian letter name.",
+        "question": "H",
+        "answerItalian": "Acca.",
+        "answerEnglish": "H.",
+        "hint": "H is acca and is usually silent in Italian words."
+      },
+      {
+        "focus": "Hard sounds",
+        "instruction": "Practice the hard C sound.",
+        "question": "ca, co, cu",
+        "answerItalian": "Ca, co, cu.",
+        "answerEnglish": "Hard c sound.",
+        "hint": "A, o, u after c usually keep the hard sound."
+      },
+      {
+        "focus": "Soft sounds",
+        "instruction": "Practice the soft C sound.",
+        "question": "ce, ci",
+        "answerItalian": "Ce, ci.",
+        "answerEnglish": "Soft c sound.",
+        "hint": "E and i after c make a soft sound."
+      },
+      {
+        "focus": "Hard sounds",
+        "instruction": "Practice the hard G sound.",
+        "question": "ga, go, gu",
+        "answerItalian": "Ga, go, gu.",
+        "answerEnglish": "Hard g sound.",
+        "hint": "A, o, u after g usually keep the hard sound."
+      },
+      {
+        "focus": "Soft sounds",
+        "instruction": "Practice the soft G sound.",
+        "question": "ge, gi",
+        "answerItalian": "Ge, gi.",
+        "answerEnglish": "Soft g sound.",
+        "hint": "E and i after g make a soft sound."
+      },
+      {
+        "focus": "Pronunciation",
+        "instruction": "Listen for the gli sound.",
+        "question": "gli amici",
+        "answerItalian": "Gli amici.",
+        "answerEnglish": "The friends.",
+        "hint": "Gli is used before plural nouns that begin with a vowel, z, or s + consonant."
+      }
+    ]
+  },
+  {
+    "title": "Chapter 11: Vocabulary & Class Notes",
+    "items": [
+      {
+        "focus": "Meals",
+        "instruction": "Say breakfast in Italian.",
+        "question": "La mattina: che pasto è?",
+        "answerItalian": "La colazione.",
+        "answerEnglish": "Breakfast.",
+        "hint": "La colazione = breakfast."
+      },
+      {
+        "focus": "Meals",
+        "instruction": "Say lunch in Italian.",
+        "question": "A mezzogiorno: che pasto è?",
+        "answerItalian": "Il pranzo.",
+        "answerEnglish": "Lunch.",
+        "hint": "Il pranzo = lunch."
+      },
+      {
+        "focus": "Meals",
+        "instruction": "Say dinner in Italian.",
+        "question": "La sera: che pasto è?",
+        "answerItalian": "La cena.",
+        "answerEnglish": "Dinner.",
+        "hint": "La cena = dinner."
+      },
+      {
+        "focus": "Food",
+        "instruction": "Say what you would like.",
+        "question": "Che cosa vorresti?",
+        "answerItalian": "Vorrei un caffè, per favore.",
+        "answerEnglish": "I would like a coffee, please.",
+        "hint": "Vorrei is a polite way to say I would like."
+      },
+      {
+        "focus": "Ordering",
+        "instruction": "Say that you want two glasses of red wine with spaghetti.",
+        "question": "Che cosa volete?",
+        "answerItalian": "Vogliamo due vini rossi con gli spaghetti.",
+        "answerEnglish": "We want two red wines with the spaghetti.",
+        "hint": "Vogliamo = we want; con = with."
+      },
+      {
+        "focus": "Prepositions",
+        "instruction": "Say at school.",
+        "question": "Dove sono i bambini?",
+        "answerItalian": "I bambini sono a scuola.",
+        "answerEnglish": "The children are at school.",
+        "hint": "Use a scuola."
+      },
+      {
+        "focus": "Prepositions",
+        "instruction": "Say in the city.",
+        "question": "Dove sei?",
+        "answerItalian": "Sono in città.",
+        "answerEnglish": "I am in the city.",
+        "hint": "Use in with città."
+      },
+      {
+        "focus": "Prepositions",
+        "instruction": "Say at the restaurant.",
+        "question": "Dove vai?",
+        "answerItalian": "Vado al ristorante.",
+        "answerEnglish": "I go to the restaurant.",
+        "hint": "Al = a + il."
+      },
+      {
+        "focus": "Verbs",
+        "instruction": "Conjugate leggere for io.",
+        "question": "Io ___ un libro.",
+        "answerItalian": "Io leggo un libro.",
+        "answerEnglish": "I read a book.",
+        "hint": "Leggere is irregular in the io form: leggo."
+      },
+      {
+        "focus": "Verbs",
+        "instruction": "Conjugate prendere for io.",
+        "question": "Io ___ un caffè.",
+        "answerItalian": "Io prendo un caffè.",
+        "answerEnglish": "I have/take a coffee.",
+        "hint": "Prendere means to take; in context it can mean to have/order."
+      },
+      {
+        "focus": "Modal verbs",
+        "instruction": "Use dovere with an infinitive.",
+        "question": "Devo ___ in ufficio.",
+        "answerItalian": "Devo telefonare in ufficio.",
+        "answerEnglish": "I have to call the office.",
+        "hint": "After dovere, use the infinitive verb."
+      },
+      {
+        "focus": "Modal verbs",
+        "instruction": "Use potere with an infinitive.",
+        "question": "Non posso ___ latte.",
+        "answerItalian": "Non posso bere latte.",
+        "answerEnglish": "I cannot drink milk.",
+        "hint": "After potere, use the infinitive: bere."
+      },
+      {
+        "focus": "-ire verbs",
+        "instruction": "Conjugate dormire for io.",
+        "question": "Io ___ bene.",
+        "answerItalian": "Io dormo bene.",
+        "answerEnglish": "I sleep well.",
+        "hint": "Dormire: io dormo."
+      },
+      {
+        "focus": "-isc verbs",
+        "instruction": "Conjugate finire for io.",
+        "question": "Io ___ il compito.",
+        "answerItalian": "Io finisco il compito.",
+        "answerEnglish": "I finish the assignment.",
+        "hint": "Finire uses -isc in io: finisco."
+      }
+    ]
+  }
+
 ];
