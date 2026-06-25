@@ -1,4 +1,4 @@
-const CACHE = "italian-communication-v5";
+const CACHE = "italian-communication-v6";
 const ASSETS = ["./", "./index.html", "./style.css", "./app.js", "./data.js", "./manifest.json"];
 
 self.addEventListener("install", (event) => {
