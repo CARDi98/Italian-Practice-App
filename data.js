@@ -1,444 +1,181 @@
-const chapters = [
-  {
-    title: "Chapter 1: Core Conversation",
-    items: [
-      {focus:"Introductions", instruction:"Answer the question about your name.", question:"Come ti chiami?", answerItalian:"Mi chiamo Maureen.", answerEnglish:"My name is Maureen.", hint:"Use mi chiamo for 'my name is.'"},
-      {focus:"Where you live", instruction:"Answer where you live.", question:"Dove abiti?", answerItalian:"Abito a New York.", answerEnglish:"I live in New York.", hint:"Use a with cities: a New York, a Roma."},
-      {focus:"Where you are from", instruction:"Answer where you are from.", question:"Di dove sei?", answerItalian:"Sono di New York.", answerEnglish:"I am from New York.", hint:"Di dove sei? asks origin. Dove abiti? asks where you live."},
-      {focus:"Nationality", instruction:"Answer yes, using sono.", question:"Sei americana?", answerItalian:"Sì, sono americana.", answerEnglish:"Yes, I am American.", hint:"For you: americana, with -a."},
-      {focus:"Age", instruction:"Answer with avere, not essere.", question:"Quanti anni hai?", answerItalian:"Ho sessantuno anni.", answerEnglish:"I am sixty-one years old.", hint:"Italian says 'I have 61 years.'"},
-      {focus:"Study", instruction:"Say what you study.", question:"Che cosa studi?", answerItalian:"Studio italiano.", answerEnglish:"I study Italian.", hint:"No article needed here: studio italiano."},
-      {focus:"Why", instruction:"Say why you study Italian.", question:"Perché studi italiano?", answerItalian:"Studio italiano perché mi piace.", answerEnglish:"I study Italian because I like it.", hint:"Keep it simple. You do not need a long answer."},
-      {focus:"Work", instruction:"Answer what work you do.", question:"Che lavoro fai?", answerItalian:"Lavoro nell'EdTech.", answerEnglish:"I work in EdTech.", hint:"You can also say: Faccio la product designer."},
-      {focus:"Family", instruction:"Answer if you have siblings.", question:"Hai fratelli o sorelle?", answerItalian:"Sì, ho una sorella.", answerEnglish:"Yes, I have a sister.", hint:"Use ho for 'I have.'"},
-      {focus:"Free time", instruction:"Give a short answer about free time.", question:"Che cosa fai nel tempo libero?", answerItalian:"Leggo, cammino e cucino.", answerEnglish:"I read, walk, and cook.", hint:"Three simple verbs are enough."}
-    ]
-  },
-  {
-    title: "Chapter 2: Articles",
-    items: [
-      {focus:"Definite article", instruction:"Choose the correct article for a masculine noun ending in -o.", question:"___ libro", answerItalian:"Il libro.", answerEnglish:"The book.", hint:"Most masculine -o nouns use il."},
-      {focus:"Definite article", instruction:"Choose the correct article for a feminine noun ending in -a.", question:"___ casa", answerItalian:"La casa.", answerEnglish:"The house.", hint:"Most feminine -a nouns use la."},
-      {focus:"Vowel noun", instruction:"Choose the correct article before a vowel.", question:"___ insegnante", answerItalian:"L'insegnante.", answerEnglish:"The teacher.", hint:"Before a vowel, il/la often become l'."},
-      {focus:"LO nouns", instruction:"Choose the correct article before z.", question:"___ zaino", answerItalian:"Lo zaino.", answerEnglish:"The backpack.", hint:"Use lo before z."},
-      {focus:"LO nouns", instruction:"Choose the correct article before s + consonant.", question:"___ studente", answerItalian:"Lo studente.", answerEnglish:"The student.", hint:"Use lo before s + consonant."},
-      {focus:"Plural articles", instruction:"Make the article and noun plural.", question:"Il libro. Come si dice al plurale?", answerItalian:"I libri.", answerEnglish:"The books.", hint:"il becomes i; -o becomes -i."},
-      {focus:"Plural articles", instruction:"Make the article and noun plural.", question:"La casa. Come si dice al plurale?", answerItalian:"Le case.", answerEnglish:"The houses.", hint:"la becomes le; -a becomes -e."},
-      {focus:"Plural LO nouns", instruction:"Make the article and noun plural.", question:"Lo zaino. Come si dice al plurale?", answerItalian:"Gli zaini.", answerEnglish:"The backpacks.", hint:"lo becomes gli."},
-      {focus:"Plural vowel nouns", instruction:"Make the article and noun plural.", question:"L'amica. Come si dice al plurale?", answerItalian:"Le amiche.", answerEnglish:"The friends.", hint:"A feminine noun uses le in plural."},
-      {focus:"Indefinite article", instruction:"Choose un or una.", question:"___ penna", answerItalian:"Una penna.", answerEnglish:"A pen.", hint:"Penna is feminine."}
-    ]
-  },
-  {
-    title: "Chapter 3: Singular to Plural",
-    items: [
-      {focus:"Noun plural", instruction:"Change the noun to plural.", question:"Il gatto", answerItalian:"I gatti.", answerEnglish:"The cats.", hint:"-o becomes -i."},
-      {focus:"Noun plural", instruction:"Change the noun to plural.", question:"La tazza", answerItalian:"Le tazze.", answerEnglish:"The cups.", hint:"-a becomes -e."},
-      {focus:"Noun plural", instruction:"Change the noun to plural.", question:"Il cane", answerItalian:"I cani.", answerEnglish:"The dogs.", hint:"-e becomes -i."},
-      {focus:"Essere plural", instruction:"Change the full sentence to plural.", question:"Il gatto è nero.", answerItalian:"I gatti sono neri.", answerEnglish:"The cats are black.", hint:"è becomes sono; nero becomes neri."},
-      {focus:"Essere plural", instruction:"Change the full sentence to plural.", question:"La tazza è rossa.", answerItalian:"Le tazze sono rosse.", answerEnglish:"The cups are red.", hint:"rossa becomes rosse."},
-      {focus:"Essere plural", instruction:"Change the full sentence to plural.", question:"La finestra è aperta.", answerItalian:"Le finestre sono aperte.", answerEnglish:"The windows are open.", hint:"Everything agrees with finestre."},
-      {focus:"Essere plural", instruction:"Change the full sentence to plural.", question:"Il libro è interessante.", answerItalian:"I libri sono interessanti.", answerEnglish:"The books are interesting.", hint:"Adjectives ending in -e become -i in plural."},
-      {focus:"Negative plural", instruction:"Change the full sentence to plural.", question:"La borsa non è cara.", answerItalian:"Le borse non sono care.", answerEnglish:"The bags are not expensive.", hint:"non stays before the verb."},
-      {focus:"Article + plural", instruction:"Change this to plural.", question:"Il coltello bello", answerItalian:"I coltelli belli.", answerEnglish:"The beautiful knives.", hint:"-o becomes -i for both noun and adjective."},
-      {focus:"Article + plural", instruction:"Change this to plural.", question:"La scuola italiana", answerItalian:"Le scuole italiane.", answerEnglish:"The Italian schools.", hint:"-a becomes -e for both noun and adjective."}
-    ]
-  },
-  {
-    title: "Chapter 4: Adjective Agreement",
-    items: [
-      {focus:"Adjective agreement", instruction:"Complete the sentence with the correct adjective form.", question:"La casa è ___. bello / bella", answerItalian:"La casa è bella.", answerEnglish:"The house is beautiful.", hint:"Casa is feminine singular."},
-      {focus:"Adjective agreement", instruction:"Complete the sentence with the correct adjective form.", question:"Il libro è ___. nero / nera", answerItalian:"Il libro è nero.", answerEnglish:"The book is black.", hint:"Libro is masculine singular."},
-      {focus:"Plural adjectives", instruction:"Change the sentence to plural.", question:"Il vestito è corto.", answerItalian:"I vestiti sono corti.", answerEnglish:"The outfits are short.", hint:"corto becomes corti."},
-      {focus:"Plural adjectives", instruction:"Change the sentence to plural.", question:"La porta è aperta.", answerItalian:"Le porte sono aperte.", answerEnglish:"The doors are open.", hint:"aperta becomes aperte."},
-      {focus:"E adjective", instruction:"Change the sentence to plural.", question:"Il libro è interessante.", answerItalian:"I libri sono interessanti.", answerEnglish:"The books are interesting.", hint:"interessante becomes interessanti."},
-      {focus:"E adjective", instruction:"Choose the correct form.", question:"La lezione è ___. interessante / interessanta", answerItalian:"La lezione è interessante.", answerEnglish:"The lesson is interesting.", hint:"Some adjectives end in -e for both masculine and feminine singular."},
-      {focus:"Color", instruction:"Make the noun and adjective plural.", question:"Il vino bianco", answerItalian:"I vini bianchi.", answerEnglish:"The white wines.", hint:"bianco becomes bianchi to keep the hard c sound."},
-      {focus:"Color", instruction:"Make the noun and adjective plural.", question:"La penna rossa", answerItalian:"Le penne rosse.", answerEnglish:"The red pens.", hint:"rossa becomes rosse."},
-      {focus:"Agreement", instruction:"Complete the phrase.", question:"Le tazze sono ___. bianco / bianche", answerItalian:"Le tazze sono bianche.", answerEnglish:"The cups are white.", hint:"Tazze is feminine plural."},
-      {focus:"Agreement", instruction:"Complete the phrase.", question:"I bambini sono ___. buono / buoni", answerItalian:"I bambini sono buoni.", answerEnglish:"The children are good.", hint:"Bambini is masculine plural."}
-    ]
-  },
-  {
-    title: "Chapter 5: Possessives",
-    items: [
-      {focus:"Possessive", instruction:"Say 'my book.'", question:"Il libro belongs to me.", answerItalian:"Il mio libro.", answerEnglish:"My book.", hint:"Libro is masculine singular: il mio."},
-      {focus:"Possessive", instruction:"Say 'my pen.'", question:"La penna belongs to me.", answerItalian:"La mia penna.", answerEnglish:"My pen.", hint:"Penna is feminine singular: la mia."},
-      {focus:"Possessive plural", instruction:"Change to plural.", question:"Il mio libro.", answerItalian:"I miei libri.", answerEnglish:"My books.", hint:"il mio becomes i miei."},
-      {focus:"Possessive plural", instruction:"Change to plural.", question:"La mia amica.", answerItalian:"Le mie amiche.", answerEnglish:"My friends.", hint:"la mia becomes le mie."},
-      {focus:"Possessive", instruction:"Answer the question from the other person's point of view.", question:"Quale spazzolino è mio?", answerItalian:"Questo spazzolino è tuo.", answerEnglish:"This toothbrush is yours.", hint:"You ask 'mine'; I answer 'yours.'"},
-      {focus:"Possessive plural", instruction:"Answer the question from the other person's point of view.", question:"Quali spazzolini sono i miei?", answerItalian:"Questi spazzolini sono i tuoi.", answerEnglish:"These toothbrushes are yours.", hint:"Plural subject: questi spazzolini sono."},
-      {focus:"Possessive", instruction:"Change the sentence to plural.", question:"La tua scuola è italiana.", answerItalian:"Le tue scuole sono italiane.", answerEnglish:"Your schools are Italian.", hint:"tua becomes tue; è becomes sono."},
-      {focus:"Possessive", instruction:"Change the sentence to plural.", question:"Il suo gatto è nero.", answerItalian:"I suoi gatti sono neri.", answerEnglish:"His/her cats are black.", hint:"suo becomes suoi."},
-      {focus:"Possessive", instruction:"Change the sentence to plural.", question:"La sua tazza è bianca.", answerItalian:"Le sue tazze sono bianche.", answerEnglish:"His/her cups are white.", hint:"sua becomes sue."},
-      {focus:"Possessive", instruction:"Say the plural form.", question:"Il tuo compito è corto.", answerItalian:"I tuoi compiti sono corti.", answerEnglish:"Your assignments are short.", hint:"tuo becomes tuoi."}
-    ]
-  },
-  {
-    title: "Chapter 6: Essere, Avere, Fare",
-    items: [
-      {focus:"Essere", instruction:"Answer with essere.", question:"Sei americana?", answerItalian:"Sì, sono americana.", answerEnglish:"Yes, I am American.", hint:"sono = I am."},
-      {focus:"Avere", instruction:"Answer with avere.", question:"Hai una penna?", answerItalian:"Sì, ho una penna.", answerEnglish:"Yes, I have a pen.", hint:"ho = I have."},
-      {focus:"Avere", instruction:"Answer with avere.", question:"Hai un gatto?", answerItalian:"Sì, ho un gatto.", answerEnglish:"Yes, I have a cat.", hint:"Keep it simple: un gatto, not dei gatti for now."},
-      {focus:"Fare", instruction:"Answer what work you do.", question:"Che lavoro fai?", answerItalian:"Faccio la product designer.", answerEnglish:"I am a product designer.", hint:"For jobs, Italian often uses fare: faccio la..."},
-      {focus:"Fare", instruction:"Answer what she does for work.", question:"Lei che lavoro fa?", answerItalian:"Fa l'infermiera.", answerEnglish:"She is a nurse.", hint:"fa = he/she does."},
-      {focus:"Fare", instruction:"Answer the cooking question.", question:"Fai gli spaghetti al ragù?", answerItalian:"Sì, faccio gli spaghetti al ragù.", answerEnglish:"Yes, I make spaghetti with meat sauce.", hint:"Question: fai. Answer about yourself: faccio."},
-      {focus:"Lavorare", instruction:"Answer where you work.", question:"Dove lavori?", answerItalian:"Lavoro nell'EdTech.", answerEnglish:"I work in EdTech.", hint:"lavoro = I work."},
-      {focus:"Studiare", instruction:"Answer what you study.", question:"Che cosa studi?", answerItalian:"Studio italiano.", answerEnglish:"I study Italian.", hint:"studio = I study."},
-      {focus:"Avere", instruction:"Answer with we have.", question:"Avete i passaporti?", answerItalian:"Sì, abbiamo i passaporti.", answerEnglish:"Yes, we have the passports.", hint:"abbiamo = we have."},
-      {focus:"Essere", instruction:"Answer with we are.", question:"Siamo a Roma?", answerItalian:"Sì, siamo a Roma.", answerEnglish:"Yes, we are in Rome.", hint:"siamo = we are."}
-    ]
-  },
-  {
-    title: "Chapter 7: Questions & Requests",
-    items: [
-      {focus:"Question word", instruction:"Answer what this is.", question:"Che cos'è questo?", answerItalian:"È un libro.", answerEnglish:"It is a book.", hint:"questo for masculine nouns."},
-      {focus:"Question word", instruction:"Answer what this is.", question:"Che cos'è questa?", answerItalian:"È una finestra.", answerEnglish:"It is a window.", hint:"questa for feminine nouns."},
-      {focus:"Question word", instruction:"Answer who she is.", question:"Chi è lei?", answerItalian:"Lei è la mia insegnante.", answerEnglish:"She is my teacher.", hint:"chi = who."},
-      {focus:"Request", instruction:"Ask for a coffee politely.", question:"At the bar: ask for one coffee.", answerItalian:"Vorrei un caffè, per favore.", answerEnglish:"I would like a coffee, please.", hint:"Vorrei = I would like."},
-      {focus:"Request", instruction:"Ask for the check politely.", question:"At a restaurant: ask for the check.", answerItalian:"Vorrei il conto, per favore.", answerEnglish:"I would like the check, please.", hint:"il conto = the check."},
-      {focus:"Travel", instruction:"Ask for two train tickets politely.", question:"At the station: ask for two train tickets.", answerItalian:"Vorrei due biglietti del treno, per favore.", answerEnglish:"I would like two train tickets, please.", hint:"due biglietti = two tickets."},
-      {focus:"Preference", instruction:"Answer what you would like.", question:"Tè o caffè?", answerItalian:"Vorrei un caffè, per favore.", answerEnglish:"I would like a coffee, please.", hint:"A complete polite answer is useful."},
-      {focus:"Reservation", instruction:"Answer that you have a reservation.", question:"Hai una prenotazione?", answerItalian:"Sì, ho una prenotazione.", answerEnglish:"Yes, I have a reservation.", hint:"prenotazione is feminine."},
-      {focus:"Place", instruction:"Answer where the children are.", question:"Dove sono i bambini?", answerItalian:"I bambini sono a scuola.", answerEnglish:"The children are at school.", hint:"a scuola = at school."},
-      {focus:"Place", instruction:"Answer where you walk.", question:"Dove cammini?", answerItalian:"Cammino nel parco.", answerEnglish:"I walk in the park.", hint:"nel = in + il."}
-    ]
-  },
-  {
-    title: "Chapter 8: Mixed Review",
-    items: [
-      {focus:"Mixed", instruction:"Answer naturally.", question:"Come stai?", answerItalian:"Sto bene, grazie. E tu?", answerEnglish:"I am well, thank you. And you?", hint:"A good automatic phrase."},
-      {focus:"Mixed", instruction:"Change the sentence to plural.", question:"La bottiglia è piena di vino.", answerItalian:"Le bottiglie sono piene di vino.", answerEnglish:"The bottles are full of wine.", hint:"bottiglia becomes bottiglie."},
-      {focus:"Mixed", instruction:"Choose the correct article.", question:"___ zoo", answerItalian:"Lo zoo.", answerEnglish:"The zoo.", hint:"z uses lo."},
-      {focus:"Mixed", instruction:"Say the plural.", question:"Lo studente", answerItalian:"Gli studenti.", answerEnglish:"The students.", hint:"lo becomes gli."},
-      {focus:"Mixed", instruction:"Change to plural.", question:"Il mio numero di telefono è lungo.", answerItalian:"I miei numeri di telefono sono lunghi.", answerEnglish:"My phone numbers are long.", hint:"numero becomes numeri; lungo becomes lunghi."},
-      {focus:"Mixed", instruction:"Answer with the correct person of avere.", question:"Loro hanno i coltelli vecchi?", answerItalian:"Sì, hanno i coltelli vecchi.", answerEnglish:"Yes, they have the old knives.", hint:"hanno = they have."},
-      {focus:"Mixed", instruction:"Answer with the correct person of fare.", question:"Voi fate il vino rosso?", answerItalian:"Sì, facciamo il vino rosso.", answerEnglish:"Yes, we make red wine.", hint:"Question to you all: fate. Answer as us: facciamo."},
-      {focus:"Mixed", instruction:"Answer why you study Italian.", question:"Perché studi italiano?", answerItalian:"Studio italiano perché amo l'Italia.", answerEnglish:"I study Italian because I love Italy.", hint:"amo = I love."},
-      {focus:"Mixed", instruction:"Answer the job question.", question:"Che lavoro fa?", answerItalian:"Fa l'infermiera.", answerEnglish:"She is a nurse.", hint:"Use fare for jobs."},
-      {focus:"Mixed", instruction:"Make the phrase plural.", question:"La mia valigia", answerItalian:"Le mie valigie.", answerEnglish:"My suitcases.", hint:"valigia becomes valigie."}
-    ]
-  }
-,
-  
-  {
-    "title": "Chapter 9: Numbers 10–120",
-    "items": [
-      {
-        "focus": "Numbers",
-        "instruction": "Say this number in Italian.",
-        "question": "10",
-        "answerItalian": "Dieci.",
-        "answerEnglish": "Ten.",
-        "hint": "Dieci starts the teen pattern."
-      },
-      {
-        "focus": "Numbers",
-        "instruction": "Say this number in Italian.",
-        "question": "20",
-        "answerItalian": "Venti.",
-        "answerEnglish": "Twenty.",
-        "hint": "Venti is the base for ventuno, ventidue, ventitré."
-      },
-      {
-        "focus": "Numbers",
-        "instruction": "Say this number in Italian.",
-        "question": "30",
-        "answerItalian": "Trenta.",
-        "answerEnglish": "Thirty.",
-        "hint": "Thirty-one is trentuno; the final vowel drops before uno and otto."
-      },
-      {
-        "focus": "Numbers",
-        "instruction": "Say this number in Italian.",
-        "question": "40",
-        "answerItalian": "Quaranta.",
-        "answerEnglish": "Forty.",
-        "hint": "Quaranta, not quaranta with a second r sound."
-      },
-      {
-        "focus": "Numbers",
-        "instruction": "Say this number in Italian.",
-        "question": "50",
-        "answerItalian": "Cinquanta.",
-        "answerEnglish": "Fifty.",
-        "hint": "Cinque becomes cinquanta."
-      },
-      {
-        "focus": "Numbers",
-        "instruction": "Say this number in Italian.",
-        "question": "60",
-        "answerItalian": "Sessanta.",
-        "answerEnglish": "Sixty.",
-        "hint": "Double s: sessanta."
-      },
-      {
-        "focus": "Numbers",
-        "instruction": "Say this number in Italian.",
-        "question": "70",
-        "answerItalian": "Settanta.",
-        "answerEnglish": "Seventy.",
-        "hint": "Double t: settanta."
-      },
-      {
-        "focus": "Numbers",
-        "instruction": "Say this number in Italian.",
-        "question": "80",
-        "answerItalian": "Ottanta.",
-        "answerEnglish": "Eighty.",
-        "hint": "Otto becomes ottanta."
-      },
-      {
-        "focus": "Numbers",
-        "instruction": "Say this number in Italian.",
-        "question": "90",
-        "answerItalian": "Novanta.",
-        "answerEnglish": "Ninety.",
-        "hint": "Novanta is the base for 91–99."
-      },
-      {
-        "focus": "Numbers",
-        "instruction": "Say this number in Italian.",
-        "question": "100",
-        "answerItalian": "Cento.",
-        "answerEnglish": "One hundred.",
-        "hint": "Cento stays attached in larger numbers."
-      },
-      {
-        "focus": "Numbers",
-        "instruction": "Say this number in Italian.",
-        "question": "101",
-        "answerItalian": "Centouno.",
-        "answerEnglish": "One hundred one.",
-        "hint": "Cento + uno becomes centouno."
-      },
-      {
-        "focus": "Numbers",
-        "instruction": "Say this number in Italian.",
-        "question": "120",
-        "answerItalian": "Centoventi.",
-        "answerEnglish": "One hundred twenty.",
-        "hint": "Cento + venti = centoventi."
-      }
-    ]
-  },
-  {
-    "title": "Chapter 10: Alphabet & Pronunciation",
-    "items": [
-      {
-        "focus": "Alphabet",
-        "instruction": "Say this Italian letter name.",
-        "question": "A",
-        "answerItalian": "A.",
-        "answerEnglish": "A.",
-        "hint": "Italian vowels are clean and steady."
-      },
-      {
-        "focus": "Alphabet",
-        "instruction": "Say this Italian letter name.",
-        "question": "B",
-        "answerItalian": "Bi.",
-        "answerEnglish": "B.",
-        "hint": "B is bi."
-      },
-      {
-        "focus": "Alphabet",
-        "instruction": "Say this Italian letter name.",
-        "question": "C",
-        "answerItalian": "Ci.",
-        "answerEnglish": "C.",
-        "hint": "C is ci."
-      },
-      {
-        "focus": "Alphabet",
-        "instruction": "Say this Italian letter name.",
-        "question": "D",
-        "answerItalian": "Di.",
-        "answerEnglish": "D.",
-        "hint": "D is di."
-      },
-      {
-        "focus": "Alphabet",
-        "instruction": "Say this Italian letter name.",
-        "question": "E",
-        "answerItalian": "E.",
-        "answerEnglish": "E.",
-        "hint": "E is a clear Italian vowel."
-      },
-      {
-        "focus": "Alphabet",
-        "instruction": "Say this Italian letter name.",
-        "question": "G",
-        "answerItalian": "Gi.",
-        "answerEnglish": "G.",
-        "hint": "G is gi."
-      },
-      {
-        "focus": "Alphabet",
-        "instruction": "Say this Italian letter name.",
-        "question": "H",
-        "answerItalian": "Acca.",
-        "answerEnglish": "H.",
-        "hint": "H is acca and is usually silent in Italian words."
-      },
-      {
-        "focus": "Hard sounds",
-        "instruction": "Practice the hard C sound.",
-        "question": "ca, co, cu",
-        "answerItalian": "Ca, co, cu.",
-        "answerEnglish": "Hard c sound.",
-        "hint": "A, o, u after c usually keep the hard sound."
-      },
-      {
-        "focus": "Soft sounds",
-        "instruction": "Practice the soft C sound.",
-        "question": "ce, ci",
-        "answerItalian": "Ce, ci.",
-        "answerEnglish": "Soft c sound.",
-        "hint": "E and i after c make a soft sound."
-      },
-      {
-        "focus": "Hard sounds",
-        "instruction": "Practice the hard G sound.",
-        "question": "ga, go, gu",
-        "answerItalian": "Ga, go, gu.",
-        "answerEnglish": "Hard g sound.",
-        "hint": "A, o, u after g usually keep the hard sound."
-      },
-      {
-        "focus": "Soft sounds",
-        "instruction": "Practice the soft G sound.",
-        "question": "ge, gi",
-        "answerItalian": "Ge, gi.",
-        "answerEnglish": "Soft g sound.",
-        "hint": "E and i after g make a soft sound."
-      },
-      {
-        "focus": "Pronunciation",
-        "instruction": "Listen for the gli sound.",
-        "question": "gli amici",
-        "answerItalian": "Gli amici.",
-        "answerEnglish": "The friends.",
-        "hint": "Gli is used before plural nouns that begin with a vowel, z, or s + consonant."
-      }
-    ]
-  },
-  {
-    "title": "Chapter 11: Vocabulary & Class Notes",
-    "items": [
-      {
-        "focus": "Meals",
-        "instruction": "Say breakfast in Italian.",
-        "question": "La mattina: che pasto è?",
-        "answerItalian": "La colazione.",
-        "answerEnglish": "Breakfast.",
-        "hint": "La colazione = breakfast."
-      },
-      {
-        "focus": "Meals",
-        "instruction": "Say lunch in Italian.",
-        "question": "A mezzogiorno: che pasto è?",
-        "answerItalian": "Il pranzo.",
-        "answerEnglish": "Lunch.",
-        "hint": "Il pranzo = lunch."
-      },
-      {
-        "focus": "Meals",
-        "instruction": "Say dinner in Italian.",
-        "question": "La sera: che pasto è?",
-        "answerItalian": "La cena.",
-        "answerEnglish": "Dinner.",
-        "hint": "La cena = dinner."
-      },
-      {
-        "focus": "Food",
-        "instruction": "Say what you would like.",
-        "question": "Che cosa vorresti?",
-        "answerItalian": "Vorrei un caffè, per favore.",
-        "answerEnglish": "I would like a coffee, please.",
-        "hint": "Vorrei is a polite way to say I would like."
-      },
-      {
-        "focus": "Ordering",
-        "instruction": "Say that you want two glasses of red wine with spaghetti.",
-        "question": "Che cosa volete?",
-        "answerItalian": "Vogliamo due vini rossi con gli spaghetti.",
-        "answerEnglish": "We want two red wines with the spaghetti.",
-        "hint": "Vogliamo = we want; con = with."
-      },
-      {
-        "focus": "Prepositions",
-        "instruction": "Say at school.",
-        "question": "Dove sono i bambini?",
-        "answerItalian": "I bambini sono a scuola.",
-        "answerEnglish": "The children are at school.",
-        "hint": "Use a scuola."
-      },
-      {
-        "focus": "Prepositions",
-        "instruction": "Say in the city.",
-        "question": "Dove sei?",
-        "answerItalian": "Sono in città.",
-        "answerEnglish": "I am in the city.",
-        "hint": "Use in with città."
-      },
-      {
-        "focus": "Prepositions",
-        "instruction": "Say at the restaurant.",
-        "question": "Dove vai?",
-        "answerItalian": "Vado al ristorante.",
-        "answerEnglish": "I go to the restaurant.",
-        "hint": "Al = a + il."
-      },
-      {
-        "focus": "Verbs",
-        "instruction": "Conjugate leggere for io.",
-        "question": "Io ___ un libro.",
-        "answerItalian": "Io leggo un libro.",
-        "answerEnglish": "I read a book.",
-        "hint": "Leggere is irregular in the io form: leggo."
-      },
-      {
-        "focus": "Verbs",
-        "instruction": "Conjugate prendere for io.",
-        "question": "Io ___ un caffè.",
-        "answerItalian": "Io prendo un caffè.",
-        "answerEnglish": "I have/take a coffee.",
-        "hint": "Prendere means to take; in context it can mean to have/order."
-      },
-      {
-        "focus": "Modal verbs",
-        "instruction": "Use dovere with an infinitive.",
-        "question": "Devo ___ in ufficio.",
-        "answerItalian": "Devo telefonare in ufficio.",
-        "answerEnglish": "I have to call the office.",
-        "hint": "After dovere, use the infinitive verb."
-      },
-      {
-        "focus": "Modal verbs",
-        "instruction": "Use potere with an infinitive.",
-        "question": "Non posso ___ latte.",
-        "answerItalian": "Non posso bere latte.",
-        "answerEnglish": "I cannot drink milk.",
-        "hint": "After potere, use the infinitive: bere."
-      },
-      {
-        "focus": "-ire verbs",
-        "instruction": "Conjugate dormire for io.",
-        "question": "Io ___ bene.",
-        "answerItalian": "Io dormo bene.",
-        "answerEnglish": "I sleep well.",
-        "hint": "Dormire: io dormo."
-      },
-      {
-        "focus": "-isc verbs",
-        "instruction": "Conjugate finire for io.",
-        "question": "Io ___ il compito.",
-        "answerItalian": "Io finisco il compito.",
-        "answerEnglish": "I finish the assignment.",
-        "hint": "Finire uses -isc in io: finisco."
-      }
-    ]
-  }
+const COURSE = {
+grammar: [
+ {id:"articles",title:"Articles",desc:"Indefinite and definite articles, singular and plural",items:[
+  {i:"Choose the correct definite article.",p:"___ studente",a:"lo studente",t:"the student",h:"Masculine singular before s + consonant uses lo.",m:"Definite articles: il, lo, l’, la → i, gli, le.",c:["brain","Brain Alert","Don’t choose the article from gender alone. For masculine nouns, the beginning sound matters too: lo studente, lo zaino."]},
+  {i:"Make it plural.",p:"l’amica → ?",a:"le amiche",t:"the female friend → the female friends",h:"Feminine plural uses le.",m:"Before a vowel, singular feminine l’ becomes le in the plural."},
+  {i:"Choose the indefinite article.",p:"___ azienda",a:"un’azienda",t:"a company",h:"Feminine before a vowel.",m:"Una becomes un’ before a vowel."},
+  {i:"Make it plural.",p:"il pomodoro → ?",a:"i pomodori",t:"the tomato → the tomatoes",h:"il becomes i.",m:"Masculine il → i."},
+  {i:"Choose the article.",p:"___ zaino",a:"lo zaino",t:"the backpack",h:"z is one of the special masculine beginnings.",m:"Use lo before z and s + consonant."}
+ ]},
+ {id:"nouns",title:"Nouns & plurals",desc:"-o/-a/-e nouns plus special plural patterns",items:[
+  {i:"Make the noun plural.",p:"cornetto → ?",a:"cornetti",t:"croissant → croissants",h:"-o usually becomes -i.",m:"Common pattern: -o → -i."},
+  {i:"Make the noun plural.",p:"lezione → ?",a:"lezioni",t:"lesson → lessons",h:"Many -e nouns become -i.",m:"Common pattern: -e → -i."},
+  {i:"Make the noun plural.",p:"amica → ?",a:"amiche",t:"female friend → female friends",h:"Keep the hard c sound.",m:"Feminine nouns ending in -ca form the plural in -che: amica → amiche.",c:["memory","Memory Trick","The h keeps c hard before e: -ca → -che. Compare amica → amiche."]},
+  {i:"Make the noun plural.",p:"albergo → ?",a:"alberghi",t:"hotel → hotels",h:"Keep the hard g sound.",m:"albergo → alberghi. The h keeps the hard g sound before i.",c:["brain","Brain Alert","Don’t use -ghi as a rule for every noun ending in -go. Some masculine -co/-go nouns take -chi/-ghi and others take -ci/-gi. Learn the plural with the noun."]},
+  {i:"What is the plural?",p:"l’uovo → ?",a:"le uova",t:"the egg → the eggs",h:"This one changes gender in the plural.",m:"uovo is masculine singular; uova is feminine plural.",c:["watch","Watch Out","This one changes gender: l’uovo is masculine singular, but le uova is feminine plural."]}
+ ]},
+ {id:"adjectives",title:"Adjectives",desc:"Agreement, singular/plural, -o/-a and -e groups",items:[
+  {i:"Make the phrase feminine.",p:"un ragazzo romano → ?",a:"una ragazza romana",t:"a Roman boy → a Roman girl",h:"The noun and adjective both agree.",m:"Adjectives in -o change for gender and number.",c:["brain","Brain Alert","In Italian, the adjective must follow the noun’s gender and number. Don’t change the noun and leave the adjective behind."]},
+  {i:"Make it plural.",p:"la camera piccola → ?",a:"le camere piccole",t:"the small room → the small rooms",h:"Feminine plural ends in -e.",m:"piccola → piccole."},
+  {i:"Make it plural.",p:"il ristorante grande → ?",a:"i ristoranti grandi",t:"the large restaurant → the large restaurants",h:"-e adjective becomes -i.",m:"Group 2 adjectives use -e singular and -i plural."},
+  {i:"Make it plural.",p:"economica → ?",a:"economiche",t:"economical → economical (f. pl.)",h:"Keep the hard c sound.",m:"Feminine adjectives in -ca form -che."}
+ ]},
+ {"id":"verbsarereg1","title":"ARE · Regular verbs · Unit 1","desc":"Regular -ARE pattern · 10 verbs","items":[{"i":"Conjugate cantare for io.","p":"cantare → io ___","a":"io canto","t":"to sing","h":"Say the infinitive, then retrieve the io form.","m":"cantare: canto, canti, canta, cantiamo, cantate, cantano.","c":["memory","Memory Trick","For regular -ARE verbs, hear the rhythm: -o, -i, -a, -iamo, -ate, -ano. Say the six endings aloud as one pattern."]},{"i":"Conjugate mangiare for tu.","p":"mangiare → tu ___","a":"tu mangi","t":"to eat","h":"Say the infinitive, then retrieve the tu form.","m":"mangiare: mangio, mangi, mangia, mangiamo, mangiate, mangiano."},{"i":"Conjugate parlare for lui/lei.","p":"parlare → lui/lei ___","a":"lui/lei parla","t":"to speak","h":"Say the infinitive, then retrieve the lui/lei form.","m":"parlare: parlo, parli, parla, parliamo, parlate, parlano."},{"i":"Conjugate cambiare for noi.","p":"cambiare → noi ___","a":"noi cambiamo","t":"to change","h":"Say the infinitive, then retrieve the noi form.","m":"cambiare: cambio, cambi, cambia, cambiamo, cambiate, cambiano."},{"i":"Conjugate camminare for voi.","p":"camminare → voi ___","a":"voi camminate","t":"to walk","h":"Say the infinitive, then retrieve the voi form.","m":"camminare: cammino, cammini, cammina, camminiamo, camminate, camminano."},{"i":"Conjugate lavorare for loro.","p":"lavorare → loro ___","a":"loro lavorano","t":"to work","h":"Say the infinitive, then retrieve the loro form.","m":"lavorare: lavoro, lavori, lavora, lavoriamo, lavorate, lavorano."},{"i":"Conjugate nuotare for io.","p":"nuotare → io ___","a":"io nuoto","t":"to swim","h":"Say the infinitive, then retrieve the io form.","m":"nuotare: nuoto, nuoti, nuota, nuotiamo, nuotate, nuotano."},{"i":"Conjugate amare for tu.","p":"amare → tu ___","a":"tu ami","t":"to love","h":"Say the infinitive, then retrieve the tu form.","m":"amare: amo, ami, ama, amiamo, amate, amano."},{"i":"Conjugate studiare for lui/lei.","p":"studiare → lui/lei ___","a":"lui/lei studia","t":"to study","h":"Say the infinitive, then retrieve the lui/lei form.","m":"studiare: studio, studi, studia, studiamo, studiate, studiano."},{"i":"Conjugate guardare for noi.","p":"guardare → noi ___","a":"noi guardiamo","t":"to watch","h":"Say the infinitive, then retrieve the noi form.","m":"guardare: guardo, guardi, guarda, guardiamo, guardate, guardano."}]},
+ {"id":"verbsarereg2","title":"ARE · Regular verbs · Unit 2","desc":"Regular -ARE pattern · 10 verbs","items":[{"i":"Conjugate ascoltare for voi.","p":"ascoltare → voi ___","a":"voi ascoltate","t":"to listen","h":"Say the infinitive, then retrieve the voi form.","m":"ascoltare: ascolto, ascolti, ascolta, ascoltiamo, ascoltate, ascoltano.","c":["memory","Memory Trick","For regular -ARE verbs, hear the rhythm: -o, -i, -a, -iamo, -ate, -ano. Say the six endings aloud as one pattern."]},{"i":"Conjugate sembrare for loro.","p":"sembrare → loro ___","a":"loro sembrano","t":"to seem","h":"Say the infinitive, then retrieve the loro form.","m":"sembrare: sembro, sembri, sembra, sembriamo, sembrate, sembrano."},{"i":"Conjugate ballare for io.","p":"ballare → io ___","a":"io ballo","t":"to dance","h":"Say the infinitive, then retrieve the io form.","m":"ballare: ballo, balli, balla, balliamo, ballate, ballano."},{"i":"Conjugate giocare for tu.","p":"giocare → tu ___","a":"tu giochi","t":"to play","h":"Say the infinitive, then retrieve the tu form.","m":"giocare: gioco, giochi, gioca, giochiamo, giocate, giocano.","c":["ear","Train Your Ear","C/G spelling can change to preserve the hard sound before i: cerchi, giochi, pratichi, paghi."]},{"i":"Conjugate pagare for lui/lei.","p":"pagare → lui/lei ___","a":"lui/lei paga","t":"to pay","h":"Say the infinitive, then retrieve the lui/lei form.","m":"pagare: pago, paghi, paga, paghiamo, pagate, pagano.","c":["ear","Train Your Ear","C/G spelling can change to preserve the hard sound before i: cerchi, giochi, pratichi, paghi."]},{"i":"Conjugate comprare for noi.","p":"comprare → noi ___","a":"noi compriamo","t":"to buy","h":"Say the infinitive, then retrieve the noi form.","m":"comprare: compro, compri, compra, compriamo, comprate, comprano."},{"i":"Conjugate visitare for voi.","p":"visitare → voi ___","a":"voi visitate","t":"to visit","h":"Say the infinitive, then retrieve the voi form.","m":"visitare: visito, visiti, visita, visitiamo, visitate, visitano."},{"i":"Conjugate abitare for loro.","p":"abitare → loro ___","a":"loro abitano","t":"to live","h":"Say the infinitive, then retrieve the loro form.","m":"abitare: abito, abiti, abita, abitiamo, abitate, abitano."},{"i":"Conjugate praticare for io.","p":"praticare → io ___","a":"io pratico","t":"to practice","h":"Say the infinitive, then retrieve the io form.","m":"praticare: pratico, pratichi, pratica, pratichiamo, praticate, praticano.","c":["ear","Train Your Ear","C/G spelling can change to preserve the hard sound before i: cerchi, giochi, pratichi, paghi."]},{"i":"Conjugate aspettare for tu.","p":"aspettare → tu ___","a":"tu aspetti","t":"to wait","h":"Say the infinitive, then retrieve the tu form.","m":"aspettare: aspetto, aspetti, aspetta, aspettiamo, aspettate, aspettano."}]},
+ {"id":"verbsarereg3","title":"ARE · Regular verbs · Unit 3","desc":"Regular -ARE pattern · 10 verbs","items":[{"i":"Conjugate volare for lui/lei.","p":"volare → lui/lei ___","a":"lui/lei vola","t":"to fly","h":"Say the infinitive, then retrieve the lui/lei form.","m":"volare: volo, voli, vola, voliamo, volate, volano.","c":["memory","Memory Trick","For regular -ARE verbs, hear the rhythm: -o, -i, -a, -iamo, -ate, -ano. Say the six endings aloud as one pattern."]},{"i":"Conjugate inviare for noi.","p":"inviare → noi ___","a":"noi inviamo","t":"to send","h":"Say the infinitive, then retrieve the noi form.","m":"inviare: invio, invii, invia, inviamo, inviate, inviano."},{"i":"Conjugate cercare for voi.","p":"cercare → voi ___","a":"voi cercate","t":"to look for","h":"Say the infinitive, then retrieve the voi form.","m":"cercare: cerco, cerchi, cerca, cerchiamo, cercate, cercano.","c":["ear","Train Your Ear","C/G spelling can change to preserve the hard sound before i: cerchi, giochi, pratichi, paghi."]},{"i":"Conjugate aiutare for loro.","p":"aiutare → loro ___","a":"loro aiutano","t":"to help","h":"Say the infinitive, then retrieve the loro form.","m":"aiutare: aiuto, aiuti, aiuta, aiutiamo, aiutate, aiutano."},{"i":"Conjugate chiamarsi for io.","p":"chiamarsi → io ___","a":"io mi chiamo","t":"to be called","h":"Say the infinitive, then retrieve the io form.","m":"chiamarsi: mi chiamo, ti chiami, si chiama, ci chiamiamo, vi chiamate, si chiamano."},{"i":"Conjugate svegliarsi for tu.","p":"svegliarsi → tu ___","a":"tu ti svegli","t":"to wake up","h":"Say the infinitive, then retrieve the tu form.","m":"svegliarsi: mi sveglio, ti svegli, si sveglia, ci svegliamo, vi svegliate, si svegliano."},{"i":"Conjugate lavarsi for lui/lei.","p":"lavarsi → lui/lei ___","a":"lui/lei si lava","t":"to wash oneself","h":"Say the infinitive, then retrieve the lui/lei form.","m":"lavarsi: mi lavo, ti lavi, si lava, ci laviamo, vi lavate, si lavano."},{"i":"Conjugate arrivare for tu.","p":"arrivare → tu ___","a":"tu arrivi","t":"to arrive","h":"Say the infinitive, then retrieve the tu form.","m":"arrivare: arrivo, arrivi, arriva, arriviamo, arrivate, arrivano."},{"i":"Conjugate tornare for lui/lei.","p":"tornare → lui/lei ___","a":"lui/lei torna","t":"to return","h":"Say the infinitive, then retrieve the lui/lei form.","m":"tornare: torno, torni, torna, torniamo, tornate, tornano."},{"i":"Conjugate entrare for noi.","p":"entrare → noi ___","a":"noi entriamo","t":"to enter","h":"Say the infinitive, then retrieve the noi form.","m":"entrare: entro, entri, entra, entriamo, entrate, entrano."}]},
+ {"id":"verbsareirr1","title":"ARE · Irregular verbs · Unit 1","desc":"Important -ARE verbs that do not follow the regular pattern · 4 verbs","items":[{"i":"Conjugate andare for noi.","p":"andare → noi ___","a":"noi andiamo","t":"to go","h":"Say the infinitive, then retrieve the noi form.","m":"andare: vado, vai, va, andiamo, andate, vanno.","c":["watch","Watch Out","Andare ends in -are but is irregular. Learn its whole six-form card rather than forcing the regular -ARE pattern."]},{"i":"Conjugate dare for voi.","p":"dare → voi ___","a":"voi date","t":"to give","h":"Say the infinitive, then retrieve the voi form.","m":"dare: do, dai, dà, diamo, date, danno.","c":["watch","Watch Out","Dare ends in -are but is irregular. Learn its whole six-form card rather than forcing the regular -ARE pattern."]},{"i":"Conjugate fare for loro.","p":"fare → loro ___","a":"loro fanno","t":"to do / make","h":"Say the infinitive, then retrieve the loro form.","m":"fare: faccio, fai, fa, facciamo, fate, fanno.","c":["watch","Watch Out","Fare ends in -are but is irregular. Learn its whole six-form card rather than forcing the regular -ARE pattern."]},{"i":"Conjugate stare for io.","p":"stare → io ___","a":"io sto","t":"to stay / feel","h":"Say the infinitive, then retrieve the io form.","m":"stare: sto, stai, sta, stiamo, state, stanno.","c":["memory","Memory Trick","For regular -ARE verbs, hear the rhythm: -o, -i, -a, -iamo, -ate, -ano. Say the six endings aloud as one pattern."]}]},
+ {"id":"verbserereg1","title":"ERE · Pattern verbs · Unit 1","desc":"-ERE verbs practiced with the standard ending pattern · 10 verbs","items":[{"i":"Conjugate prendere for io.","p":"prendere → io ___","a":"io prendo","t":"to take / have","h":"Say the infinitive, then retrieve the io form.","m":"prendere: prendo, prendi, prende, prendiamo, prendete, prendono.","c":["brain","Brain Alert","-ERE contains many high-frequency irregular patterns. Learn the six forms with a useful phrase, not the infinitive alone."]},{"i":"Conjugate scrivere for tu.","p":"scrivere → tu ___","a":"tu scrivi","t":"to write","h":"Say the infinitive, then retrieve the tu form.","m":"scrivere: scrivo, scrivi, scrive, scriviamo, scrivete, scrivono."},{"i":"Conjugate leggere for lui/lei.","p":"leggere → lui/lei ___","a":"lui/lei legge","t":"to read","h":"Say the infinitive, then retrieve the lui/lei form.","m":"leggere: leggo, leggi, legge, leggiamo, leggete, leggono."},{"i":"Conjugate vivere for noi.","p":"vivere → noi ___","a":"noi viviamo","t":"to live","h":"Say the infinitive, then retrieve the noi form.","m":"vivere: vivo, vivi, vive, viviamo, vivete, vivono."},{"i":"Conjugate vedere for voi.","p":"vedere → voi ___","a":"voi vedete","t":"to see","h":"Say the infinitive, then retrieve the voi form.","m":"vedere: vedo, vedi, vede, vediamo, vedete, vedono."},{"i":"Conjugate accendere for io.","p":"accendere → io ___","a":"io accendo","t":"to turn on","h":"Say the infinitive, then retrieve the io form.","m":"accendere: accendo, accendi, accende, accendiamo, accendete, accendono."},{"i":"Conjugate chiudere for tu.","p":"chiudere → tu ___","a":"tu chiudi","t":"to close","h":"Say the infinitive, then retrieve the tu form.","m":"chiudere: chiudo, chiudi, chiude, chiudiamo, chiudete, chiudono."},{"i":"Conjugate chiedere for lui/lei.","p":"chiedere → lui/lei ___","a":"lui/lei chiede","t":"to ask","h":"Say the infinitive, then retrieve the lui/lei form.","m":"chiedere: chiedo, chiedi, chiede, chiediamo, chiedete, chiedono."},{"i":"Conjugate mettere for noi.","p":"mettere → noi ___","a":"noi mettiamo","t":"to put","h":"Say the infinitive, then retrieve the noi form.","m":"mettere: metto, metti, mette, mettiamo, mettete, mettono."},{"i":"Conjugate cedere for voi.","p":"cedere → voi ___","a":"voi cedete","t":"to yield","h":"Say the infinitive, then retrieve the voi form.","m":"cedere: cedo, cedi, cede, cediamo, cedete, cedono.","c":["brain","Brain Alert","-ERE contains many high-frequency irregular patterns. Learn the six forms with a useful phrase, not the infinitive alone."]}]},
+ {"id":"verbserereg2","title":"ERE · Pattern verbs · Unit 2","desc":"-ERE verbs practiced with the standard ending pattern · 4 verbs","items":[{"i":"Conjugate conoscere for loro.","p":"conoscere → loro ___","a":"loro conoscono","t":"to know / meet","h":"Say the infinitive, then retrieve the loro form.","m":"conoscere: conosco, conosci, conosce, conosciamo, conoscete, conoscono."},{"i":"Conjugate ripetere for io.","p":"ripetere → io ___","a":"io ripeto","t":"to repeat","h":"Say the infinitive, then retrieve the io form.","m":"ripetere: ripeto, ripeti, ripete, ripetiamo, ripetete, ripetono."},{"i":"Conjugate ridere for tu.","p":"ridere → tu ___","a":"tu ridi","t":"to laugh","h":"Say the infinitive, then retrieve the tu form.","m":"ridere: rido, ridi, ride, ridiamo, ridete, ridono."},{"i":"Conjugate sorridere for lui/lei.","p":"sorridere → lui/lei ___","a":"lui/lei sorride","t":"to smile","h":"Say the infinitive, then retrieve the lui/lei form.","m":"sorridere: sorrido, sorridi, sorride, sorridiamo, sorridete, sorridono."}]},
+ {"id":"verbsereirr1","title":"ERE · Irregular verbs · Unit 1","desc":"High-frequency -ERE verbs with irregular stems or forms · 10 verbs","items":[{"i":"Conjugate bere for loro.","p":"bere → loro ___","a":"loro bevono","t":"to drink","h":"Say the infinitive, then retrieve the loro form.","m":"bere: bevo, bevi, beve, beviamo, bevete, bevono."},{"i":"Conjugate essere for noi.","p":"essere → noi ___","a":"noi siamo","t":"to be","h":"Say the infinitive, then retrieve the noi form.","m":"essere: sono, sei, è, siamo, siete, sono."},{"i":"Conjugate piacere for voi.","p":"piacere → voi ___","a":"voi piacete","t":"to please / to like","h":"Say the infinitive, then retrieve the voi form.","m":"piacere: piaccio, piaci, piace, piacciamo, piacete, piacciono."},{"i":"Conjugate dovere for loro.","p":"dovere → loro ___","a":"loro devono","t":"must / to have to","h":"Say the infinitive, then retrieve the loro form.","m":"dovere: devo, devi, deve, dobbiamo, dovete, devono.","c":["brain","Brain Alert","After devono, the next verb stays in the infinitive: for example, parlare, andare, or studiare."]},{"i":"Conjugate potere for io.","p":"potere → io ___","a":"io posso","t":"can / to be able","h":"Say the infinitive, then retrieve the io form.","m":"potere: posso, puoi, può, possiamo, potete, possono.","c":["brain","Brain Alert","After posso, the next verb stays in the infinitive: for example, parlare, andare, or studiare."]},{"i":"Conjugate spegnere for tu.","p":"spegnere → tu ___","a":"tu spegni","t":"to turn off","h":"Say the infinitive, then retrieve the tu form.","m":"spegnere: spengo, spegni, spegne, spegniamo, spegnete, spengono."},{"i":"Conjugate accogliere for lui/lei.","p":"accogliere → lui/lei ___","a":"lui/lei accoglie","t":"to welcome","h":"Say the infinitive, then retrieve the lui/lei form.","m":"accogliere: accolgo, accogli, accoglie, accogliamo, accogliete, accolgono.","c":["brain","Brain Alert","-ERE contains many high-frequency irregular patterns. Learn the six forms with a useful phrase, not the infinitive alone."]},{"i":"Conjugate rimanere for noi.","p":"rimanere → noi ___","a":"noi rimaniamo","t":"to remain / stay","h":"Say the infinitive, then retrieve the noi form.","m":"rimanere: rimango, rimani, rimane, rimaniamo, rimanete, rimangono."},{"i":"Conjugate sapere for voi.","p":"sapere → voi ___","a":"voi sapete","t":"to know","h":"Say the infinitive, then retrieve the voi form.","m":"sapere: so, sai, sa, sappiamo, sapete, sanno."},{"i":"Conjugate volere for loro.","p":"volere → loro ___","a":"loro vogliono","t":"to want","h":"Say the infinitive, then retrieve the loro form.","m":"volere: voglio, vuoi, vuole, vogliamo, volete, vogliono.","c":["brain","Brain Alert","After vogliono, the next verb stays in the infinitive: for example, parlare, andare, or studiare."]}]},
+ {"id":"verbsereirr2","title":"ERE · Irregular verbs · Unit 2","desc":"High-frequency -ERE verbs with irregular stems or forms · 1 verbs","items":[{"i":"Conjugate sedersi for io.","p":"sedersi → io ___","a":"io mi siedo","t":"to sit down","h":"Say the infinitive, then retrieve the io form.","m":"sedersi: mi siedo, ti siedi, si siede, ci sediamo, vi sedete, si siedono."}]},
+ {"id":"verbsirereg1","title":"IRE · Regular verbs · Unit 1","desc":"Regular -IRE verbs that follow the standard pattern · 5 verbs","items":[{"i":"Conjugate partire for io.","p":"partire → io ___","a":"io parto","t":"to leave","h":"Say the infinitive, then retrieve the io form.","m":"partire: parto, parti, parte, partiamo, partite, partono.","c":["memory","Memory Trick","Regular -IRE rhythm: -o, -i, -e, -iamo, -ite, -ono. Then learn which -IRE verbs use the -ISC pattern."]},{"i":"Conjugate dormire for tu.","p":"dormire → tu ___","a":"tu dormi","t":"to sleep","h":"Say the infinitive, then retrieve the tu form.","m":"dormire: dormo, dormi, dorme, dormiamo, dormite, dormono."},{"i":"Conjugate sentire for lui/lei.","p":"sentire → lui/lei ___","a":"lui/lei sente","t":"to hear / feel","h":"Say the infinitive, then retrieve the lui/lei form.","m":"sentire: sento, senti, sente, sentiamo, sentite, sentono."},{"i":"Conjugate offrire for noi.","p":"offrire → noi ___","a":"noi offriamo","t":"to offer","h":"Say the infinitive, then retrieve the noi form.","m":"offrire: offro, offri, offre, offriamo, offrite, offrono."},{"i":"Conjugate aprire for voi.","p":"aprire → voi ___","a":"voi aprite","t":"to open","h":"Say the infinitive, then retrieve the voi form.","m":"aprire: apro, apri, apre, apriamo, aprite, aprono."}]},
+ {"id":"verbsireirr1","title":"IRE · Irregular & -ISC verbs · Unit 1","desc":"Irregular -IRE and -ISC verbs · 10 verbs","items":[{"i":"Conjugate venire for loro.","p":"venire → loro ___","a":"loro vengono","t":"to come","h":"Say the infinitive, then retrieve the loro form.","m":"venire: vengo, vieni, viene, veniamo, venite, vengono."},{"i":"Conjugate uscire for io.","p":"uscire → io ___","a":"io esco","t":"to go out","h":"Say the infinitive, then retrieve the io form.","m":"uscire: esco, esci, esce, usciamo, uscite, escono."},{"i":"Conjugate salire for tu.","p":"salire → tu ___","a":"tu sali","t":"to go up","h":"Say the infinitive, then retrieve the tu form.","m":"salire: salgo, sali, sale, saliamo, salite, salgono."},{"i":"Conjugate finire for lui/lei.","p":"finire → lui/lei ___","a":"lui/lei finisce","t":"to finish","h":"Say the infinitive, then retrieve the lui/lei form.","m":"finire: finisco, finisci, finisce, finiamo, finite, finiscono.","c":["pattern","Common Pattern","-ISC appears with io, tu, lui/lei and loro, but not with noi or voi."]},{"i":"Conjugate preferire for noi.","p":"preferire → noi ___","a":"noi preferiamo","t":"to prefer","h":"Say the infinitive, then retrieve the noi form.","m":"preferire: preferisco, preferisci, preferisce, preferiamo, preferite, preferiscono.","c":["pattern","Common Pattern","-ISC appears with io, tu, lui/lei and loro, but not with noi or voi."]},{"i":"Conjugate capire for voi.","p":"capire → voi ___","a":"voi capite","t":"to understand","h":"Say the infinitive, then retrieve the voi form.","m":"capire: capisco, capisci, capisce, capiamo, capite, capiscono.","c":["pattern","Common Pattern","-ISC appears with io, tu, lui/lei and loro, but not with noi or voi."]},{"i":"Conjugate pulire for loro.","p":"pulire → loro ___","a":"loro puliscono","t":"to clean","h":"Say the infinitive, then retrieve the loro form.","m":"pulire: pulisco, pulisci, pulisce, puliamo, pulite, puliscono.","c":["pattern","Common Pattern","-ISC appears with io, tu, lui/lei and loro, but not with noi or voi."]},{"i":"Conjugate spedire for io.","p":"spedire → io ___","a":"io spedisco","t":"to send","h":"Say the infinitive, then retrieve the io form.","m":"spedire: spedisco, spedisci, spedisce, spediamo, spedite, spediscono.","c":["pattern","Common Pattern","-ISC appears with io, tu, lui/lei and loro, but not with noi or voi."]},{"i":"Conjugate starnutire for tu.","p":"starnutire → tu ___","a":"tu starnutisci","t":"to sneeze","h":"Say the infinitive, then retrieve the tu form.","m":"starnutire: starnutisco, starnutisci, starnutisce, starnutiamo, starnutite, starnutiscono.","c":["pattern","Common Pattern","-ISC appears with io, tu, lui/lei and loro, but not with noi or voi."]},{"i":"Conjugate esibire for lui/lei.","p":"esibire → lui/lei ___","a":"lui/lei esibisce","t":"to display","h":"Say the infinitive, then retrieve the lui/lei form.","m":"esibire: esibisco, esibisci, esibisce, esibiamo, esibite, esibiscono.","c":["pattern","Common Pattern","-ISC appears with io, tu, lui/lei and loro, but not with noi or voi."]}]},
+ {"id":"verbsireirr2","title":"IRE · Irregular & -ISC verbs · Unit 2","desc":"Irregular -IRE and -ISC verbs · 6 verbs","items":[{"i":"Conjugate impedire for noi.","p":"impedire → noi ___","a":"noi impediamo","t":"to prevent","h":"Say the infinitive, then retrieve the noi form.","m":"impedire: impedisco, impedisci, impedisce, impediamo, impedite, impediscono.","c":["pattern","Common Pattern","-ISC appears with io, tu, lui/lei and loro, but not with noi or voi."]},{"i":"Conjugate digerire for voi.","p":"digerire → voi ___","a":"voi digerite","t":"to digest","h":"Say the infinitive, then retrieve the voi form.","m":"digerire: digerisco, digerisci, digerisce, digeriamo, digerite, digeriscono.","c":["pattern","Common Pattern","-ISC appears with io, tu, lui/lei and loro, but not with noi or voi."]},{"i":"Conjugate gestire for loro.","p":"gestire → loro ___","a":"loro gestiscono","t":"to manage","h":"Say the infinitive, then retrieve the loro form.","m":"gestire: gestisco, gestisci, gestisce, gestiamo, gestite, gestiscono.","c":["pattern","Common Pattern","-ISC appears with io, tu, lui/lei and loro, but not with noi or voi."]},{"i":"Conjugate arrossire for io.","p":"arrossire → io ___","a":"io arrossisco","t":"to blush","h":"Say the infinitive, then retrieve the io form.","m":"arrossire: arrossisco, arrossisci, arrossisce, arrossiamo, arrossite, arrossiscono.","c":["pattern","Common Pattern","-ISC appears with io, tu, lui/lei and loro, but not with noi or voi."]},{"i":"Conjugate sentirsi for tu.","p":"sentirsi → tu ___","a":"tu ti senti","t":"to feel","h":"Say the infinitive, then retrieve the tu form.","m":"sentirsi: mi sento, ti senti, si sente, ci sentiamo, vi sentite, si sentono."},{"i":"Conjugate divertirsi for lui/lei.","p":"divertirsi → lui/lei ___","a":"lui/lei si diverte","t":"to have fun","h":"Say the infinitive, then retrieve the lui/lei form.","m":"divertirsi: mi diverto, ti diverti, si diverte, ci divertiamo, vi divertite, si divertono.","c":["memory","Memory Trick","Regular -IRE rhythm: -o, -i, -e, -iamo, -ite, -ono. Then learn which -IRE verbs use the -ISC pattern."]}]},
+ {id:"reflexive",title:"Reflexive verbs",desc:"Reflexive pronouns with svegliarsi",items:[
+  {i:"Conjugate for io.",p:"svegliarsi → io ___",a:"io mi sveglio",t:"I wake up",h:"Use mi with io.",m:"mi, ti, si, ci, vi, si."},
+  {i:"Conjugate for noi.",p:"svegliarsi → noi ___",a:"noi ci svegliamo",t:"we wake up",h:"Use ci with noi.",m:"The reflexive pronoun comes before the conjugated verb."}
+ ]},
+ {id:"prepositions",title:"Prepositions",desc:"Simple and articulated prepositions",items:[
+  {i:"Choose the preposition.",p:"Abito ___ Roma.",a:"Abito a Roma.",t:"I live in Rome.",h:"With a city, use a.",m:"di + città for origin; a + città for location.",c:["brain","Brain Alert","Cities use a for where you are/live: a Roma. Countries usually use in: in Italia."]},
+  {i:"Choose the preposition.",p:"Abito ___ Brasile.",a:"Abito in Brasile.",t:"I live in Brazil.",h:"With a country, use in.",m:"Use in + country.",c:["memory","Memory Trick","Think: a + city, in + country. A Roma, in Italia."]},
+  {i:"Combine the words.",p:"in + gli = ?",a:"negli",t:"in the",h:"This is an articulated preposition.",m:"in + gli → negli."},
+  {i:"Combine the words.",p:"di + la = ?",a:"della",t:"of the",h:"di combines with the article.",m:"di + la → della."},
+  {i:"Complete the phrase.",p:"Il bar è ___ la farmacia e la banca.",a:"Il bar è tra la farmacia e la banca.",t:"The bar is between the pharmacy and the bank.",h:"tra can mean between.",m:"tra and fra can express between/among."}
+ ]},
+ {id:"possessives",title:"Possessives",desc:"mio, tuo, suo, nostro, vostro, loro",items:[
+  {i:"Make it feminine.",p:"il mio → ?",a:"la mia",t:"my",h:"The possessive agrees with the noun.",m:"mio/mia, tuo/tua, suo/sua."},
+  {i:"Make it plural masculine.",p:"il tuo → ?",a:"i tuoi",t:"your",h:"Plural masculine.",m:"mio → miei; tuo → tuoi; suo → suoi."},
+  {i:"Make it plural feminine.",p:"la sua → ?",a:"le sue",t:"his/her/your formal",h:"Plural feminine.",m:"sua → sue."}
+ ]},
+ {id:"pronouns",title:"Pronouns",desc:"Subject, direct and indirect pronouns",items:[
+  {i:"Choose the subject pronoun.",p:"___ possiamo ordinare?",a:"Noi possiamo ordinare?",t:"Can we order?",h:"possiamo = we can.",m:"The verb ending often tells you the subject."},
+  {i:"Give the direct object pronoun.",p:"io → direct object?",a:"mi",t:"me",h:"First person singular.",m:"Direct: mi, ti, lo/la/La, ci, vi, li/le."},
+  {i:"Give the indirect object pronoun.",p:"loro → indirect object?",a:"gli",t:"to them",h:"The review chart uses gli.",m:"Indirect: mi, ti, gli/le/Le, ci, vi, gli."}
+ ]},
+ {id:"questions",title:"Question words",desc:"Che, come, dove, perché, quale, quanto, quando",items:[
+  {i:"Ask “Where do you live?”",p:"___ abiti?",a:"Dove abiti?",t:"Where do you live?",h:"Where = dove.",m:"Dove asks about place."},
+  {i:"Ask “Why do you study Italian?”",p:"___ studi italiano?",a:"Perché studi italiano?",t:"Why do you study Italian?",h:"Why = perché.",m:"Perché is used for both why and because."},
+  {i:"Ask “How many languages do you speak?”",p:"___ lingue parli?",a:"Quante lingue parli?",t:"How many languages do you speak?",h:"lingue is feminine plural.",m:"Quanto agrees: quanto/quanta/quanti/quante.",c:["pattern","Common Pattern","Match quanto to the noun: quante lingue because lingue is feminine plural."]},
+  {i:"Ask “What time is it?”",p:"___ ore sono?",a:"Che ore sono?",t:"What time is it?",h:"Use che.",m:"Che ore sono? asks the time."}
+ ]},
+ {id:"adverbs",title:"Adverbs & quantity",desc:"Frequency plus molto and poco",items:[
+  {i:"Translate into Italian.",p:"always",a:"sempre",t:"always",h:"Starts with s.",m:"Frequency scale: sempre, spesso, qualche volta, raramente, mai."},
+  {i:"Translate into Italian.",p:"sometimes",a:"qualche volta",t:"sometimes",h:"Two words.",m:"qualche volta = sometimes."},
+  {i:"Complete the idea.",p:"Dormo ___ il weekend. (a lot)",a:"Dormo molto il weekend.",t:"I sleep a lot on the weekend.",h:"After a verb, use molto as an adverb.",m:"The review notes that molto and poco used as adverbs do not change."}
+ ]},
+ {id:"questo",title:"Questo & indefinite words",desc:"questo/questa/questi/queste; qualcuno, qualcosa, nessuno, niente",items:[
+  {i:"Make it feminine singular.",p:"questo → ?",a:"questa",t:"this",h:"-o to -a.",m:"questo, questa, questi, queste."},
+  {i:"Choose the word for a person.",p:"someone = ?",a:"qualcuno",t:"someone",h:"It refers to a person.",m:"qualcuno = a person; qualcosa = a thing."},
+  {i:"Complete the sentence.",p:"Non mangio ___ a colazione.",a:"Non mangio niente a colazione.",t:"I eat nothing for breakfast.",h:"Nothing = niente.",m:"The review page uses non before the verb when niente follows it."}
+ ]},
+ {id:"past",title:"Passato prossimo",desc:"Avere/essere auxiliaries and past participles",items:[
+  {i:"Make the passato prossimo.",p:"io + mangiare",a:"ho mangiato",t:"I ate / I have eaten",h:"Use avere + mangiato.",m:"Regular -are past participle: -ato.",c:["memory","Memory Trick","Regular past participles: -are → -ato, -ere → -uto, -ire → -ito."]},
+  {i:"Make the passato prossimo.",p:"noi + andare",a:"siamo andati / siamo andate",t:"we went",h:"andare uses essere.",m:"With essere, the participle agrees in gender and number.",c:["brain","Brain Alert","With essere in the passato prossimo, check the ending: andato, andata, andati, andate."]},
+  {i:"Give the past participle.",p:"fare → ?",a:"fatto",t:"done / made",h:"Irregular.",m:"fare → fatto."},
+  {i:"Give the past participle.",p:"vedere → ?",a:"visto",t:"seen",h:"Irregular.",m:"vedere → visto."},
+  {i:"Give the past participle.",p:"scrivere → ?",a:"scritto",t:"written",h:"Irregular.",m:"scrivere → scritto."}
+ ]},
+ {id:"imperative",title:"Imperative with tu",desc:"Regular and irregular commands",items:[
+  {i:"Give the tu command.",p:"guardare → ?",a:"guarda",t:"look!",h:"-are uses -a.",m:"Regular tu imperative: -are → -a."},
+  {i:"Give the tu command.",p:"leggere → ?",a:"leggi",t:"read!",h:"-ere uses -i.",m:"Regular tu imperative: -ere → -i."},
+  {i:"Give the tu command.",p:"avere → ?",a:"abbi",t:"have!",h:"Irregular.",m:"avere → abbi; essere → sii; dire → di’."}
+ ]},
+ {id:"formal",title:"Formal & informal",desc:"tu vs Lei and capitalization review",items:[
+  {i:"Make the question formal.",p:"Qual è il tuo indirizzo?",a:"Qual è il Suo indirizzo?",t:"What is your address? (formal)",h:"Formal possessive: Suo.",m:"The review contrasts informal tu with formal Lei."},
+  {i:"Choose the formal subject.",p:"___ lavora a Palermo.",a:"Lei lavora a Palermo.",t:"You work in Palermo. (formal)",h:"Formal you uses Lei.",m:"Formal Lei uses the third-person singular verb.",c:["brain","Brain Alert","Formal Lei means “you,” but its verb behaves like third-person singular: Lei lavora."]},
+  {i:"Which word needs a capital letter?",p:"sono di messico.",a:"Sono di Messico.",t:"I am from Mexico.",h:"Country names are capitalized.",m:"The review page practices capitals for names, countries, cities and sentence beginnings."}
+ ]}
+],
+vocabulary: [
+ {id:"time",title:"Time & routine",desc:"Words from your class notes",items:[
+  {i:"Say it in Italian.",p:"today",a:"oggi",t:"today",h:"o...",m:"oggi = today",e:"Oggi studio italiano.",et:"Today I study Italian."},
+  {i:"Say it in Italian.",p:"this morning",a:"questa mattina",t:"this morning",h:"questa...",m:"questa mattina = this morning",e:"Questa mattina studio italiano.",et:"This morning I study Italian."},
+  {i:"Say it in Italian.",p:"morning",a:"mattina",t:"morning",h:"mat...",m:"mattina = morning",e:"La mattina bevo un caffè.",et:"In the morning I drink a coffee."},
+  {i:"Say it in Italian.",p:"breakfast",a:"colazione",t:"breakfast",h:"cola...",m:"colazione = breakfast",e:"Faccio colazione a casa.",et:"I have breakfast at home."},
+  {i:"Say it in Italian.",p:"lunch",a:"pranzo",t:"lunch",h:"pr...",m:"pranzo = lunch",e:"Pranzo a mezzogiorno.",et:"I have lunch at noon."},
+  {i:"Say it in Italian.",p:"dinner",a:"cena",t:"dinner",h:"ce...",m:"cena = dinner",e:"La cena è pronta.",et:"Dinner is ready."},
+  {i:"Say it in Italian.",p:"day",a:"giorno",t:"day",h:"gio...",m:"giorno = day",e:"Oggi è un bel giorno.",et:"Today is a beautiful day."},
+  {i:"Say it in Italian.",p:"week",a:"settimana",t:"week",h:"setti...",m:"settimana = week",e:"Studio italiano ogni settimana.",et:"I study Italian every week."},
+  {i:"Say it in Italian.",p:"month",a:"mese",t:"month",h:"me...",m:"mese = month",e:"Questo mese studio molto.",et:"This month I study a lot."}
+ ]},
+ {id:"frequency",title:"Frequency & quantity",desc:"How often and how much",items:[
+  {i:"Say it in Italian.",p:"always",a:"sempre",t:"always",h:"s...",m:"sempre",e:"Studio sempre la mattina.",et:"I always study in the morning."},
+  {i:"Say it in Italian.",p:"often",a:"spesso",t:"often",h:"sp...",m:"spesso",e:"Cammino spesso in città.",et:"I often walk in the city."},
+  {i:"Say it in Italian.",p:"sometimes",a:"qualche volta",t:"sometimes",h:"qualche...",m:"qualche volta",e:"Qualche volta mangio al ristorante.",et:"Sometimes I eat at a restaurant."},
+  {i:"Say it in Italian.",p:"rarely",a:"raramente",t:"rarely",h:"rara...",m:"raramente",e:"Raramente bevo vino.",et:"I rarely drink wine."},
+  {i:"Say it in Italian.",p:"never",a:"mai",t:"never",h:"m...",m:"mai",e:"Non bevo mai birra.",et:"I never drink beer."},
+  {i:"Say it in Italian.",p:"more",a:"più",t:"more",h:"p...",m:"più = more",e:"Vorrei più tempo.",et:"I would like more time."}
+ ]},
+ {id:"peopleplaces",title:"People & places",desc:"Useful class vocabulary",items:[
+  {i:"Say it in Italian.",p:"country",a:"paese",t:"country",h:"pa...",m:"paese can mean country.",e:"L’Italia è un bel paese.",et:"Italy is a beautiful country."},
+  {i:"Say it in Italian.",p:"company",a:"azienda",t:"company",h:"a...",m:"azienda = company",e:"Lavoro in un’azienda.",et:"I work at a company."},
+  {i:"Say it in Italian.",p:"hotel",a:"albergo",t:"hotel",h:"al...",m:"albergo = hotel",e:"L’albergo è in centro.",et:"The hotel is downtown."},
+  {i:"Say it in Italian.",p:"chef / cook (female)",a:"cuoca",t:"female cook / chef",h:"cu...",m:"cuoca is feminine.",e:"La cuoca prepara la cena.",et:"The cook prepares dinner."},
+  {i:"Say it in Italian.",p:"address",a:"indirizzo",t:"address",h:"indi...",m:"indirizzo = address",e:"Qual è il tuo indirizzo?",et:"What is your address?"},
+  {i:"Say it in Italian.",p:"married",a:"sposato / sposata",t:"married",h:"spo...",m:"The adjective agrees with the person.",e:"Sono sposata.",et:"I am married."}
+ ]},
+ {id:"objects",title:"Classroom & objects",desc:"Words from your notebook",items:[
+  {i:"Say it in Italian.",p:"notebook",a:"quaderno",t:"notebook",h:"qua...",m:"quaderno",e:"Il quaderno è sul tavolo.",et:"The notebook is on the table."},
+  {i:"Say it in Italian.",p:"pencil",a:"matita",t:"pencil",h:"ma...",m:"matita",e:"La matita è sul tavolo.",et:"The pencil is on the table."},
+  {i:"Say it in Italian.",p:"marker / highlighter",a:"evidenziatore",t:"highlighter",h:"evid...",m:"evidenziatore",e:"Uso un evidenziatore.",et:"I use a highlighter."},
+  {i:"Say it in Italian.",p:"key",a:"chiave",t:"key",h:"chi...",m:"chiave is feminine.",e:"La chiave è nella borsa.",et:"The key is in the bag."}
+ ]},
+ {id:"useful",title:"Useful words",desc:"High-frequency words from your notes",items:[
+  {i:"Say it in Italian.",p:"everyone / all",a:"tutti",t:"everyone / all",h:"tu...",m:"tutti",e:"Tutti studiano italiano.",et:"Everyone studies Italian."},
+  {i:"Say it in Italian.",p:"generally",a:"generalmente",t:"generally",h:"general...",m:"generalmente",e:"Generalmente ceno a casa.",et:"I generally eat dinner at home."},
+  {i:"Say it in Italian.",p:"small",a:"piccolo / piccola",t:"small",h:"pic...",m:"The adjective agrees with the noun.",e:"L’albergo è piccolo.",et:"The hotel is small."},
+  {i:"Say it in Italian.",p:"right / correct",a:"giusto / giusta",t:"right / correct",h:"giu...",m:"giusto can mean right/correct.",e:"La risposta è giusta.",et:"The answer is correct."},
+  {i:"Say it in Italian.",p:"also",a:"anche",t:"also",h:"an...",m:"anche = also",e:"Studio anche italiano.",et:"I also study Italian."},
+  {i:"Say it in Italian.",p:"in front of",a:"davanti a",t:"in front of",h:"dav...",m:"davanti a = in front of",e:"Il bar è davanti alla banca.",et:"The bar is in front of the bank."},
+  {i:"Say it in Italian.",p:"option",a:"opzione",t:"option",h:"op...",m:"opzione",e:"Questa è una buona opzione.",et:"This is a good option."},
+  {i:"Say it in Italian.",p:"each / every",a:"ogni",t:"each / every",h:"o...",m:"ogni",e:"Studio ogni giorno.",et:"I study every day."},
+  {i:"Say it in Italian.",p:"series",a:"serie",t:"series",h:"se...",m:"serie",e:"Guardo una serie italiana.",et:"I watch an Italian series."}
+ ]},
+ {id:"actionverbs",title:"Action verbs",desc:"Verbs you wrote and practiced",items:[
+  {i:"Say it in Italian.",p:"to help",a:"aiutare",t:"to help",h:"aiu...",m:"Puoi aiutarmi? = Can you help me?",c:["practice","Practice","Say the whole phrase aloud as one chunk: Puoi aiutarmi?"]},
+  {i:"Say it in Italian.",p:"to walk",a:"camminare",t:"to walk",h:"cam...",m:"camminare",e:"Mi piace camminare in città.",et:"I like to walk in the city."},
+  {i:"Say it in Italian.",p:"to look for",a:"cercare",t:"to look for",h:"cer...",m:"cercare",e:"Cerco un albergo.",et:"I am looking for a hotel."},
+  {i:"Say it in Italian.",p:"to pay",a:"pagare",t:"to pay",h:"pag...",m:"pagare",e:"Posso pagare con la carta?",et:"Can I pay by card?"},
+  {i:"Say it in Italian.",p:"to study",a:"studiare",t:"to study",h:"stu...",m:"studiare",e:"Studio italiano ogni giorno.",et:"I study Italian every day."},
+  {i:"Say it in Italian.",p:"Can you help me?",a:"Puoi aiutarmi?",t:"Can you help me?",h:"Puoi + infinitive.",m:"A useful complete phrase from your notes.",e:"Puoi aiutarmi con questo esercizio?",et:"Can you help me with this exercise?"}
+ ]},
+ {"id":"vocabexpanded1","title":"Food & meals · Unit 1","desc":"10 words and phrases from recovered notes and study materials","items":[{"i":"Say it in Italian.","p":"food","a":"il cibo","t":"food","h":"Starts with il…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"side dish","a":"il contorno","t":"side dish","h":"Starts with il…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"octopus","a":"il polpo","t":"octopus","h":"Starts with il…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"sardines","a":"le sardine","t":"sardines","h":"Starts with le…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"water","a":"l’acqua","t":"water","h":"Starts with l’…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"milk","a":"il latte","t":"milk","h":"Starts with il…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"coffee","a":"il caffè","t":"coffee","h":"Starts with il…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"tea","a":"il tè","t":"tea","h":"Starts with il…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"croissant","a":"il cornetto","t":"croissant","h":"Starts with il…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"wine","a":"il vino","t":"wine","h":"Starts with il…","m":"Recall the Italian word or expression, then say it aloud again."}]},
+ {"id":"vocabexpanded2","title":"Food & meals · Unit 2","desc":"10 words and phrases from recovered notes and study materials","items":[{"i":"Say it in Italian.","p":"meat","a":"la carne","t":"meat","h":"Starts with la…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"tomato","a":"il pomodoro","t":"tomato","h":"Starts with il…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"tomato sauce","a":"il sugo di pomodoro","t":"tomato sauce","h":"Starts with il…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"meat sauce","a":"il ragù","t":"meat sauce","h":"Starts with il…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"pizza","a":"la pizza","t":"pizza","h":"Starts with la…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"egg","a":"l’uovo","t":"egg","h":"Starts with l’…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"eggs","a":"le uova","t":"eggs","h":"Starts with le…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"cake / dessert","a":"il dolce","t":"cake / dessert","h":"Starts with il…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"orange juice","a":"il succo d’arancia","t":"orange juice","h":"Starts with il…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"fresh-squeezed orange juice","a":"la spremuta d’arancia","t":"fresh-squeezed orange juice","h":"Starts with la…","m":"Recall the Italian word or expression, then say it aloud again."}]},
+ {"id":"vocabexpanded3","title":"Food & meals · Unit 3","desc":"5 words and phrases from recovered notes and study materials","items":[{"i":"Say it in Italian.","p":"sugar","a":"lo zucchero","t":"sugar","h":"Starts with lo…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"spaghetti","a":"gli spaghetti","t":"spaghetti","h":"Starts with gl…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"glass","a":"il bicchiere","t":"glass","h":"Starts with il…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"fork","a":"la forchetta","t":"fork","h":"Starts with la…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"knife","a":"il coltello","t":"knife","h":"Starts with il…","m":"Recall the Italian word or expression, then say it aloud again."}]},
+ {"id":"vocabexpanded4","title":"Travel & transportation · Unit 1","desc":"10 words and phrases from recovered notes and study materials","items":[{"i":"Say it in Italian.","p":"journey / trip","a":"il viaggio","t":"journey / trip","h":"Starts with il…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"train","a":"il treno","t":"train","h":"Starts with il…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"bus","a":"l’autobus","t":"bus","h":"Starts with l’…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"ferry","a":"il traghetto","t":"ferry","h":"Starts with il…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"station","a":"la stazione","t":"station","h":"Starts with la…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"airport","a":"l’aeroporto","t":"airport","h":"Starts with l’…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"ticket","a":"il biglietto","t":"ticket","h":"Starts with il…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"suitcase","a":"la valigia","t":"suitcase","h":"Starts with la…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"luggage","a":"i bagagli","t":"luggage","h":"Starts with i …","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"passport","a":"il passaporto","t":"passport","h":"Starts with il…","m":"Recall the Italian word or expression, then say it aloud again."}]},
+ {"id":"vocabexpanded5","title":"Travel & transportation · Unit 2","desc":"10 words and phrases from recovered notes and study materials","items":[{"i":"Say it in Italian.","p":"reservation","a":"la prenotazione","t":"reservation","h":"Starts with la…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"room","a":"la camera","t":"room","h":"Starts with la…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"restaurant","a":"il ristorante","t":"restaurant","h":"Starts with il…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"shop","a":"il negozio","t":"shop","h":"Starts with il…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"office","a":"l’ufficio","t":"office","h":"Starts with l’…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"museum","a":"il museo","t":"museum","h":"Starts with il…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"sea","a":"il mare","t":"sea","h":"Starts with il…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"park","a":"il parco","t":"park","h":"Starts with il…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"city","a":"la città","t":"city","h":"Starts with la…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"street","a":"la strada","t":"street","h":"Starts with la…","m":"Recall the Italian word or expression, then say it aloud again."}]},
+ {"id":"vocabexpanded6","title":"Travel & transportation · Unit 3","desc":"2 words and phrases from recovered notes and study materials","items":[{"i":"Say it in Italian.","p":"apartment","a":"l’appartamento","t":"apartment","h":"Starts with l’…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"university","a":"l’università","t":"university","h":"Starts with l’…","m":"Recall the Italian word or expression, then say it aloud again."}]},
+ {"id":"vocabexpanded7","title":"Home & classroom · Unit 1","desc":"10 words and phrases from recovered notes and study materials","items":[{"i":"Say it in Italian.","p":"book","a":"il libro","t":"book","h":"Starts with il…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"notebook","a":"il quaderno","t":"notebook","h":"Starts with il…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"pen","a":"la penna","t":"pen","h":"Starts with la…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"pencil","a":"la matita","t":"pencil","h":"Starts with la…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"highlighter","a":"l’evidenziatore","t":"highlighter","h":"Starts with l’…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"key","a":"la chiave","t":"key","h":"Starts with la…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"chair","a":"la sedia","t":"chair","h":"Starts with la…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"door","a":"la porta","t":"door","h":"Starts with la…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"window","a":"la finestra","t":"window","h":"Starts with la…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"bag","a":"la borsa","t":"bag","h":"Starts with la…","m":"Recall the Italian word or expression, then say it aloud again."}]},
+ {"id":"vocabexpanded8","title":"Home & classroom · Unit 2","desc":"10 words and phrases from recovered notes and study materials","items":[{"i":"Say it in Italian.","p":"backpack","a":"lo zaino","t":"backpack","h":"Starts with lo…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"toothbrush","a":"lo spazzolino","t":"toothbrush","h":"Starts with lo…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"phone","a":"il telefono","t":"phone","h":"Starts with il…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"cup","a":"la tazza","t":"cup","h":"Starts with la…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"lesson","a":"la lezione","t":"lesson","h":"Starts with la…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"school","a":"la scuola","t":"school","h":"Starts with la…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"question","a":"la domanda","t":"question","h":"Starts with la…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"answer","a":"la risposta","t":"answer","h":"Starts with la…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"word","a":"la parola","t":"word","h":"Starts with la…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"words","a":"le parole","t":"words","h":"Starts with le…","m":"Recall the Italian word or expression, then say it aloud again."}]},
+ {"id":"vocabexpanded9","title":"Home & classroom · Unit 3","desc":"5 words and phrases from recovered notes and study materials","items":[{"i":"Say it in Italian.","p":"sentence","a":"la frase","t":"sentence","h":"Starts with la…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"subject","a":"il soggetto","t":"subject","h":"Starts with il…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"option","a":"l’opzione","t":"option","h":"Starts with l’…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"series","a":"la serie","t":"series","h":"Starts with la…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"correct","a":"corretto / corretta","t":"correct","h":"Starts with co…","m":"Recall the Italian word or expression, then say it aloud again."}]},
+ {"id":"vocabexpanded10","title":"People & family · Unit 1","desc":"10 words and phrases from recovered notes and study materials","items":[{"i":"Say it in Italian.","p":"daughter","a":"la figlia","t":"daughter","h":"Starts with la…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"son","a":"il figlio","t":"son","h":"Starts with il…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"sister","a":"la sorella","t":"sister","h":"Starts with la…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"brother","a":"il fratello","t":"brother","h":"Starts with il…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"friend (female)","a":"l’amica","t":"friend (female)","h":"Starts with l’…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"friend (male)","a":"l’amico","t":"friend (male)","h":"Starts with l’…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"children","a":"i bambini","t":"children","h":"Starts with i …","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"girls","a":"le bambine","t":"girls","h":"Starts with le…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"young people","a":"i ragazzi","t":"young people","h":"Starts with i …","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"uncle","a":"lo zio","t":"uncle","h":"Starts with lo…","m":"Recall the Italian word or expression, then say it aloud again."}]},
+ {"id":"vocabexpanded11","title":"People & family · Unit 2","desc":"10 words and phrases from recovered notes and study materials","items":[{"i":"Say it in Italian.","p":"grandfather","a":"il nonno","t":"grandfather","h":"Starts with il…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"nurse (female)","a":"l’infermiera","t":"nurse (female)","h":"Starts with l’…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"nurse (male)","a":"l’infermiere","t":"nurse (male)","h":"Starts with l’…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"sales clerk (male)","a":"il commesso","t":"sales clerk (male)","h":"Starts with il…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"sales clerk (female)","a":"la commessa","t":"sales clerk (female)","h":"Starts with la…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"waiter","a":"il cameriere","t":"waiter","h":"Starts with il…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"waitress","a":"la cameriera","t":"waitress","h":"Starts with la…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"artist","a":"l’artista","t":"artist","h":"Starts with l’…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"stylist","a":"la stilista","t":"stylist","h":"Starts with la…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"surname","a":"il cognome","t":"surname","h":"Starts with il…","m":"Recall the Italian word or expression, then say it aloud again."}]},
+ {"id":"vocabexpanded12","title":"People & family · Unit 3","desc":"2 words and phrases from recovered notes and study materials","items":[{"i":"Say it in Italian.","p":"profession","a":"la professione","t":"profession","h":"Starts with la…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"phone number","a":"il numero di telefono","t":"phone number","h":"Starts with il…","m":"Recall the Italian word or expression, then say it aloud again."}]},
+ {"id":"vocabexpanded13","title":"Descriptions & everyday words · Unit 1","desc":"10 words and phrases from recovered notes and study materials","items":[{"i":"Say it in Italian.","p":"beautiful","a":"bello / bella","t":"beautiful","h":"Starts with be…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"good","a":"buono / buona","t":"good","h":"Starts with bu…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"new","a":"nuovo / nuova","t":"new","h":"Starts with nu…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"open","a":"aperto / aperta","t":"open","h":"Starts with ap…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"expensive","a":"caro / cara","t":"expensive","h":"Starts with ca…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"red","a":"rosso / rossa","t":"red","h":"Starts with ro…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"black","a":"nero / nera","t":"black","h":"Starts with ne…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"white","a":"bianco / bianca","t":"white","h":"Starts with bi…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"big","a":"grande","t":"big","h":"Starts with gr…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"interesting","a":"interessante","t":"interesting","h":"Starts with in…","m":"Recall the Italian word or expression, then say it aloud again."}]},
+ {"id":"vocabexpanded14","title":"Descriptions & everyday words · Unit 2","desc":"10 words and phrases from recovered notes and study materials","items":[{"i":"Say it in Italian.","p":"fresh","a":"fresco / fresca","t":"fresh","h":"Starts with fr…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"special / particular","a":"particolare","t":"special / particular","h":"Starts with pa…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"in front of","a":"davanti","t":"in front of","h":"Starts with da…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"something","a":"qualcosa","t":"something","h":"Starts with qu…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"someone","a":"qualcuno","t":"someone","h":"Starts with qu…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"nothing","a":"niente","t":"nothing","h":"Starts with ni…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"nobody","a":"nessuno","t":"nobody","h":"Starts with ne…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"then / well","a":"allora","t":"then / well","h":"Starts with al…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"please / you’re welcome","a":"prego","t":"please / you’re welcome","h":"Starts with pr…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"this","a":"questo / questa","t":"this","h":"Starts with qu…","m":"Recall the Italian word or expression, then say it aloud again."}]},
+ {"id":"vocabexpanded15","title":"Descriptions & everyday words · Unit 3","desc":"2 words and phrases from recovered notes and study materials","items":[{"i":"Say it in Italian.","p":"many / much","a":"molto / molta","t":"many / much","h":"Starts with mo…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"little / few","a":"poco / poca","t":"little / few","h":"Starts with po…","m":"Recall the Italian word or expression, then say it aloud again."}]},
+ {"id":"vocabexpanded16","title":"Useful speaking phrases · Unit 1","desc":"10 words and phrases from recovered notes and study materials","items":[{"i":"Say it in Italian.","p":"How do you say...?","a":"Come si dice...?","t":"How do you say...?","h":"Starts with Co…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"How do you spell/write...?","a":"Come si scrive...?","t":"How do you spell/write...?","h":"Starts with Co…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"Can you repeat? (formal)","a":"Può ripetere?","t":"Can you repeat? (formal)","h":"Starts with Pu…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"More slowly, please","a":"Più lentamente, per favore.","t":"More slowly, please","h":"Starts with Pi…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"I do not understand","a":"Non capisco.","t":"I do not understand","h":"Starts with No…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"I have a question","a":"Ho una domanda.","t":"I have a question","h":"Starts with Ho…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"Is it correct?","a":"È corretto?","t":"Is it correct?","h":"Starts with È …","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"May I try?","a":"Posso provare?","t":"May I try?","h":"Starts with Po…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"I need time to think","a":"Ho bisogno di tempo per pensare.","t":"I need time to think","h":"Starts with Ho…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"How are you? (informal)","a":"Come stai?","t":"How are you? (informal)","h":"Starts with Co…","m":"Recall the Italian word or expression, then say it aloud again."}]},
+ {"id":"vocabexpanded17","title":"Useful speaking phrases · Unit 2","desc":"10 words and phrases from recovered notes and study materials","items":[{"i":"Say it in Italian.","p":"How are you? (formal)","a":"Come sta?","t":"How are you? (formal)","h":"Starts with Co…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"I'm fine","a":"Sto bene.","t":"I'm fine","h":"Starts with St…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"Where are you from?","a":"Di dove sei?","t":"Where are you from?","h":"Starts with Di…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"Where do you live?","a":"Dove abiti?","t":"Where do you live?","h":"Starts with Do…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"What do you do for work?","a":"Che lavoro fai?","t":"What do you do for work?","h":"Starts with Ch…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"Why do you study Italian?","a":"Perché studi italiano?","t":"Why do you study Italian?","h":"Starts with Pe…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"I would like a coffee, please","a":"Vorrei un caffè, per favore.","t":"I would like a coffee, please","h":"Starts with Vo…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"The check, please","a":"Il conto, per favore.","t":"The check, please","h":"Starts with Il…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"Two tickets, please","a":"Due biglietti, per favore.","t":"Two tickets, please","h":"Starts with Du…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"I have a reservation","a":"Ho una prenotazione.","t":"I have a reservation","h":"Starts with Ho…","m":"Recall the Italian word or expression, then say it aloud again."}]},
+ {"id":"vocabexpanded18","title":"Useful speaking phrases · Unit 3","desc":"3 words and phrases from recovered notes and study materials","items":[{"i":"Say it in Italian.","p":"How much does it cost?","a":"Quanto costa?","t":"How much does it cost?","h":"Starts with Qu…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"How long is the journey?","a":"Quanto dura il viaggio?","t":"How long is the journey?","h":"Starts with Qu…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"It was a pleasure to meet you","a":"Mi ha fatto molto piacere conoscerti.","t":"It was a pleasure to meet you","h":"Starts with Mi…","m":"Recall the Italian word or expression, then say it aloud again."}]},
+ {"id":"vocabexpanded19","title":"Numbers & time · Unit 1","desc":"10 words and phrases from recovered notes and study materials","items":[{"i":"Say it in Italian.","p":"one","a":"uno","t":"one","h":"Starts with un…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"two","a":"due","t":"two","h":"Starts with du…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"three","a":"tre","t":"three","h":"Starts with tr…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"four","a":"quattro","t":"four","h":"Starts with qu…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"five","a":"cinque","t":"five","h":"Starts with ci…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"six","a":"sei","t":"six","h":"Starts with se…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"seven","a":"sette","t":"seven","h":"Starts with se…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"eight","a":"otto","t":"eight","h":"Starts with ot…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"nine","a":"nove","t":"nine","h":"Starts with no…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"ten","a":"dieci","t":"ten","h":"Starts with di…","m":"Recall the Italian word or expression, then say it aloud again."}]},
+ {"id":"vocabexpanded20","title":"Numbers & time · Unit 2","desc":"10 words and phrases from recovered notes and study materials","items":[{"i":"Say it in Italian.","p":"eleven","a":"undici","t":"eleven","h":"Starts with un…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"twelve","a":"dodici","t":"twelve","h":"Starts with do…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"thirteen","a":"tredici","t":"thirteen","h":"Starts with tr…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"fourteen","a":"quattordici","t":"fourteen","h":"Starts with qu…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"fifteen","a":"quindici","t":"fifteen","h":"Starts with qu…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"sixteen","a":"sedici","t":"sixteen","h":"Starts with se…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"seventeen","a":"diciassette","t":"seventeen","h":"Starts with di…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"eighteen","a":"diciotto","t":"eighteen","h":"Starts with di…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"nineteen","a":"diciannove","t":"nineteen","h":"Starts with di…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"twenty","a":"venti","t":"twenty","h":"Starts with ve…","m":"Recall the Italian word or expression, then say it aloud again."}]},
+ {"id":"vocabexpanded21","title":"Numbers & time · Unit 3","desc":"10 words and phrases from recovered notes and study materials","items":[{"i":"Say it in Italian.","p":"thirty","a":"trenta","t":"thirty","h":"Starts with tr…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"forty","a":"quaranta","t":"forty","h":"Starts with qu…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"fifty","a":"cinquanta","t":"fifty","h":"Starts with ci…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"sixty","a":"sessanta","t":"sixty","h":"Starts with se…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"seventy","a":"settanta","t":"seventy","h":"Starts with se…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"eighty","a":"ottanta","t":"eighty","h":"Starts with ot…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"ninety","a":"novanta","t":"ninety","h":"Starts with no…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"one hundred","a":"cento","t":"one hundred","h":"Starts with ce…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"morning","a":"la mattina","t":"morning","h":"Starts with la…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"evening","a":"la sera","t":"evening","h":"Starts with la…","m":"Recall the Italian word or expression, then say it aloud again."}]},
+ {"id":"vocabexpanded22","title":"Numbers & time · Unit 4","desc":"2 words and phrases from recovered notes and study materials","items":[{"i":"Say it in Italian.","p":"tomorrow","a":"domani","t":"tomorrow","h":"Starts with do…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"yesterday","a":"ieri","t":"yesterday","h":"Starts with ie…","m":"Recall the Italian word or expression, then say it aloud again."}]},
+ {"id":"vocabexpanded23","title":"Verbs as vocabulary · Unit 1","desc":"10 words and phrases from recovered notes and study materials","items":[{"i":"Say it in Italian.","p":"to speak","a":"parlare","t":"to speak","h":"Starts with pa…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"to work","a":"lavorare","t":"to work","h":"Starts with la…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"to have","a":"avere","t":"to have","h":"Starts with av…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"to be","a":"essere","t":"to be","h":"Starts with es…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"to do / make","a":"fare","t":"to do / make","h":"Starts with fa…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"to go","a":"andare","t":"to go","h":"Starts with an…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"to come","a":"venire","t":"to come","h":"Starts with ve…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"to go out","a":"uscire","t":"to go out","h":"Starts with us…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"to be able to","a":"potere","t":"to be able to","h":"Starts with po…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"to want","a":"volere","t":"to want","h":"Starts with vo…","m":"Recall the Italian word or expression, then say it aloud again."}]},
+ {"id":"vocabexpanded24","title":"Verbs as vocabulary · Unit 2","desc":"10 words and phrases from recovered notes and study materials","items":[{"i":"Say it in Italian.","p":"to have to","a":"dovere","t":"to have to","h":"Starts with do…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"to know a fact","a":"sapere","t":"to know a fact","h":"Starts with sa…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"to say","a":"dire","t":"to say","h":"Starts with di…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"to drink","a":"bere","t":"to drink","h":"Starts with be…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"to stay / feel","a":"stare","t":"to stay / feel","h":"Starts with st…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"to finish","a":"finire","t":"to finish","h":"Starts with fi…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"to understand","a":"capire","t":"to understand","h":"Starts with ca…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"to eat","a":"mangiare","t":"to eat","h":"Starts with ma…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"to wake up","a":"svegliarsi","t":"to wake up","h":"Starts with sv…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"to call oneself","a":"chiamarsi","t":"to call oneself","h":"Starts with ch…","m":"Recall the Italian word or expression, then say it aloud again."}]},
+ {"id":"vocabexpanded25","title":"Verbs as vocabulary · Unit 3","desc":"6 words and phrases from recovered notes and study materials","items":[{"i":"Say it in Italian.","p":"to swim","a":"nuotare","t":"to swim","h":"Starts with nu…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"to arrive","a":"arrivare","t":"to arrive","h":"Starts with ar…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"to leave","a":"partire","t":"to leave","h":"Starts with pa…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"to return","a":"tornare","t":"to return","h":"Starts with to…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"to live","a":"abitare","t":"to live","h":"Starts with ab…","m":"Recall the Italian word or expression, then say it aloud again."},{"i":"Say it in Italian.","p":"to give","a":"dare","t":"to give","h":"Starts with da…","m":"Recall the Italian word or expression, then say it aloud again."}]}
+]
+};
 
+const PLURAL_PAIRS = [
+ {singular:"Il gatto è nero.",plural:"I gatti sono neri.",english:"The cat is black → The cats are black.",steps:["il → i","gatto → gatti","è → sono","nero → neri"]},
+ {singular:"La tazza è rossa.",plural:"Le tazze sono rosse.",english:"The cup is red → The cups are red.",steps:["la → le","tazza → tazze","è → sono","rossa → rosse"]},
+ {singular:"Il libro è interessante.",plural:"I libri sono interessanti.",english:"The book is interesting → The books are interesting.",steps:["il → i","libro → libri","è → sono","interessante → interessanti"]},
+ {singular:"La finestra è aperta.",plural:"Le finestre sono aperte.",english:"The window is open → The windows are open.",steps:["la → le","finestra → finestre","è → sono","aperta → aperte"]},
+ {singular:"Il coltello è bello.",plural:"I coltelli sono belli.",english:"The knife is beautiful → The knives are beautiful.",steps:["il → i","coltello → coltelli","è → sono","bello → belli"]},
+ {singular:"La borsa non è cara.",plural:"Le borse non sono care.",english:"The bag is not expensive → The bags are not expensive.",steps:["la → le","borsa → borse","non è → non sono","cara → care"]},
+ {singular:"Il vestito non è nuovo.",plural:"I vestiti non sono nuovi.",english:"The outfit is not new → The outfits are not new.",steps:["il → i","vestito → vestiti","non è → non sono","nuovo → nuovi"]},
+ {singular:"La porta non è aperta.",plural:"Le porte non sono aperte.",english:"The door is not open → The doors are open.",steps:["la → le","porta → porte","non è → non sono","aperta → aperte"]},
+ {singular:"Il passaporto è aperto.",plural:"I passaporti sono aperti.",english:"The passport is open → The passports are open.",steps:["il → i","passaporto → passaporti","è → sono","aperto → aperti"]},
+ {singular:"La scuola è italiana.",plural:"Le scuole sono italiane.",english:"The school is Italian → The schools are Italian.",steps:["la → le","scuola → scuole","è → sono","italiana → italiane"]}
 ];

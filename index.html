@@ -2,86 +2,205 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <title>Italian Communication Practice</title>
-  <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#1f6f50">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-title" content="Italian Practice">
-  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#123d36">
+  <title>Italian Practice · Version 2</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <main class="app">
-    <header>
-      <div>
-        <p class="eyebrow">Maureen’s Italian Communication App</p>
-        <h1>Italian Communication Practice</h1>
-      </div>
-      <button id="autoBtn" class="primary" type="button">Start Commute Mode</button>
-    </header>
+  <header class="appbar">
+    <button class="brand" id="homeBtn" aria-label="Home">Italian Practice <span>V2</span></button>
+    <div class="app-actions">
+      <button class="ghost" id="slowBtn">Slow audio: On</button>
+      <button class="ghost" id="reviewBtn">Review</button>
+    </div>
+  <div class="mode-strip global-mode-strip" aria-label="Practice modes">
+        <button class="mode active" id="globalSpeakMode">Listen & Speak</button>
+        <button class="mode" id="globalListenMode">Listen Only</button>
+        <span class="mode disabled" title="Planned for the full app">Read & Choose · Full app</span>
+      </div></header>
 
-    <section class="voice-panel">
-      <label for="italianVoiceSelect"><strong>Italian voice</strong></label>
-      <select id="italianVoiceSelect" aria-label="Italian voice selector">
-        <option value="">Loading Italian voices…</option>
-      </select>
-      <div class="actions compact-actions">
-        <button id="testVoice" type="button">🔊 Test Italian Voice</button>
-        <button id="slowBtn" type="button">Speed: Slow</button>
-        <button id="pauseBtn" type="button">Pause: 8 sec</button>
+  <main id="app">
+    <section id="homeView">
+      <div class="hero">
+        <p class="eyebrow">AI Italian Coach · Practice Prototype</p>
+        <h1>What would you like to practice?</h1>
+        <p class="lede">Choose a focused practice area. Speak first, then reveal the answer.</p>
       </div>
-      <p class="voice-note">No typing. Read the task, answer out loud, then reveal and listen. Commute Mode speaks the Italian prompt, waits, reveals the answer, and speaks the Italian answer using the same selected voice.</p>
+
+      <div class="mode-strip" aria-label="Practice modes">
+        <button class="mode active" id="speakMode">Listen & Speak</button>
+        <button class="mode" id="listenMode">Listen Only</button>
+        <span class="mode disabled" title="Planned for the full app">Read & Choose · Full app</span>
+      </div>
+      <div class="listen-settings hidden" id="listenSettings">
+        <div class="timer-head">
+          <div><strong>Retrieval time</strong><span>Adjust the time between the question and answer.</span></div>
+          <strong class="timer-value"><span id="timerSeconds">8</span> sec</strong>
+        </div>
+        <input id="retrievalSlider" class="retrieval-slider" type="range" min="3" max="20" step="1" value="8" aria-label="Seconds between question and answer">
+      </div>
+
+      <div class="dashboard">
+        <button class="dashboard-card grammar-card" data-open="grammar">
+          <span class="card-kicker">Grammar</span>
+          <strong>Build the sentence</strong>
+          <small>Articles, nouns, adjectives, verbs, pronouns, prepositions and more</small>
+          <span class="card-link">Choose a grammar topic →</span>
+        </button>
+        <button class="dashboard-card vocab-card" data-open="vocabulary">
+          <span class="card-kicker">Vocabulary</span>
+          <strong>Build retrieval</strong>
+          <small>Class vocabulary, time, people, places, useful words and verbs</small>
+          <span class="card-link">Practice vocabulary →</span>
+        </button>
+        <button class="dashboard-card plural-card" data-open="plural">
+          <span class="card-kicker">Featured drill</span>
+          <strong>Singolare → Plurale</strong>
+          <small>Change article, noun, verb and adjective from singular to plural</small>
+          <span class="card-link">Open trainer →</span>
+        </button>
+      </div>
+
+      <section class="review-panel">
+        <div>
+          <p class="eyebrow">Retrieval practice</p>
+          <h2>Bring the basics back</h2>
+          <p>Review mixes previously learned grammar and vocabulary instead of only moving forward.</p>
+        </div>
+        <button class="primary" id="startMixedReview">Start mixed review</button>
+      </section>
     </section>
 
-    <section class="chapters" id="chapterButtons" aria-label="Chapters"></section>
-
-    <section class="card" aria-live="polite">
-      <div class="topline">
-        <h2 id="chapterTitle"></h2>
-        <span id="counter"></span>
+    <section id="libraryView" class="hidden">
+      <button class="back" id="libraryBack">← Home</button>
+      <div class="section-heading">
+        <p class="eyebrow" id="libraryEyebrow"></p>
+        <h1 id="libraryTitle"></h1>
+        <p id="libraryDescription" class="lede"></p>
       </div>
-      <div class="bar" aria-hidden="true"><div id="progress"></div></div>
-
-      <div class="prompt">
-        <p class="label">Focus</p>
-        <p id="focus" class="focus"></p>
-        <p class="label">Task</p>
-        <p id="instruction" class="instruction"></p>
-        <p class="label">Italian Prompt</p>
-        <p id="question" class="question"></p>
-        <button id="speakQuestion" type="button">🔊 Play Italian Prompt</button>
-      </div>
-
-      <div class="answer">
-        <p class="label">Answer</p>
-        <p id="answerItalian" class="italian"></p>
-        <p id="answerEnglish" class="english"></p>
-        <p id="hint" class="hint"></p>
-        <div class="actions">
-          <button id="showAnswer" type="button">Show / Hide Answer</button>
-          <button id="speakAnswerItalian" type="button">🔊 Play Italian Answer</button>
-          <button id="speakAnswerEnglish" type="button">🔊 Play English</button>
-        </div>
-        <div class="actions rating-actions">
-          <button id="gotIt" type="button">✓ I got it</button>
-          <button id="needPractice" type="button">↻ Need practice</button>
-        </div>
-      </div>
-
-      <nav class="nav" aria-label="Question navigation">
-        <button id="prev" type="button">← Previous</button>
-        <button id="next" class="primary" type="button">Next →</button>
-      </nav>
+      <div id="topicGrid" class="topic-grid"></div>
     </section>
 
-    <section class="tips">
-      <h3>How to practice</h3>
-      <p><strong>Study Mode:</strong> read the focus and task, answer out loud, then tap Show Answer. <strong>Commute Mode:</strong> choose an Italian voice once, press Start, listen, answer during the pause, and hear the model answer.</p>
-      <p id="stats" class="stats"></p>
+    <section id="practiceView" class="hidden">
+      <button class="back" id="practiceBack">← Topics</button>
+      <div class="practice-shell">
+        <div class="practice-head">
+          <div>
+            <p class="eyebrow" id="practiceCategory"></p><p class="mode-status hidden" id="modeStatus">🎧 Listen Only · <span id="practiceTimerSeconds">8</span> sec retrieval</p>
+            <h1 id="practiceTitle"></h1>
+          </div>
+          <div class="progress-wrap">
+            <span id="progressText"></span>
+            <div class="progress"><i id="progressBar"></i></div>
+          </div>
+        </div>
+
+        <div class="player-controls practice-player hidden" id="practicePlayer">
+          <button class="primary" id="listenStart">▶ Start</button>
+          <button class="secondary" id="listenPause" disabled>⏸ Pause</button>
+        </div>
+
+        <div id="verbPatternChart" class="verb-pattern-chart hidden"></div>
+        <button id="viewVerbPattern" class="secondary view-pattern hidden">View pattern</button>
+
+        <div class="prompt-card">
+          <p class="label" id="instruction"></p>
+          <p class="prompt" id="prompt"></p>
+          <p class="hint hidden" id="hint"></p>
+          <button class="audio" id="playPrompt">🔊 Hear Italian</button>
+        </div>
+
+        <div class="think-card">
+          <p class="label">Say your answer aloud</p>
+          <p class="think-copy">Give yourself a moment to retrieve it before revealing.</p>
+          <button class="secondary" id="showHint">Hint</button>
+          <button class="primary dark" id="reveal">Show answer</button>
+          <button class="secondary practice-nav" id="prevPractice">← Previous</button>
+          <button class="secondary practice-nav" id="skipNext">Next →</button>
+        </div>
+
+        <div class="answer-card hidden" id="answerCard">
+          <p class="label">Answer</p>
+          <p class="answer" id="answer"></p>
+          <p class="translation" id="translation"></p>
+          <button class="audio" id="playAnswer">🔊 Hear answer</button>
+          <div class="example hidden" id="example"><p class="label">In a sentence</p><p class="example-it" id="exampleIt"></p><p class="example-en" id="exampleEn"></p></div>
+          <div class="learning-booster rule hidden" id="micro"><span class="booster-icon">📘</span><div><strong>Grammar Key</strong><p id="microText"></p></div></div>
+          <div class="callout hidden" id="callout"><span id="calloutIcon"></span><div><strong id="calloutTitle"></strong><p id="calloutText"></p></div></div>
+          <div class="confidence">
+            <button class="secondary" id="needPractice">Need practice</button>
+            <button class="primary" id="gotIt">I got it</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="pluralView" class="hidden">
+      <button class="back" id="pluralBack">← Home</button>
+      <div class="section-heading">
+        <p class="eyebrow">Grammar · Featured drill</p>
+        <h1>Singolare → Plurale Trainer</h1>
+        <p class="lede">Change the sentence one part at a time.</p>
+      </div>
+      <div class="plural-chain" id="pluralChain"></div>
+      <div class="practice-shell">
+        <div class="practice-head">
+          <h2 id="pluralCount"></h2>
+          <select id="pluralSection" aria-label="Choose plural section">
+            <option value="0">1. Article</option>
+            <option value="1">2. Noun</option>
+            <option value="2">3. Verb</option>
+            <option value="3">4. Adjective</option>
+            <option value="4">5. Plural definite articles</option>
+          </select>
+        </div>
+        <div class="player-controls practice-player hidden" id="practicePlayer">
+          <button class="primary" id="listenStart">▶ Start</button>
+          <button class="secondary" id="listenPause" disabled>⏸ Pause</button>
+        </div>
+
+        <div class="prompt-card">
+          <p class="label">Singular</p>
+          <p class="prompt" id="pluralSingular"></p>
+          <button class="audio" id="playSingular">🔊 Hear singular</button>
+        </div>
+        <div class="think-card">
+          <p class="label" id="pluralInstruction"></p>
+          <p class="focus-change" id="pluralPrompt"></p>
+          <div id="pluralHintText" class="hidden plural-hint" aria-live="polite"></div>
+          <div class="plural-actions">
+            <button class="secondary" id="pluralHint">Hint</button>
+            <button class="primary dark" id="pluralReveal">Show answer</button>
+            <button class="secondary" id="pluralPrev">← Previous</button>
+            <button class="secondary" id="pluralNextQuestion">Next →</button>
+          </div>
+        </div>
+        <div class="answer-card hidden" id="pluralAnswerCard">
+          <p class="label">This change</p>
+          <p class="answer" id="pluralTarget"></p>
+          <button class="audio" id="playTarget">🔊 Hear this answer</button>
+          <p class="label space-top">Full plural sentence</p>
+          <p class="answer" id="pluralFull"></p>
+          <p class="translation" id="pluralEnglish"></p>
+          <button class="audio" id="playPlural">🔊 Hear plural</button>
+          <div id="pluralSteps" class="chips"></div>
+          
+        </div>
+      </div>
     </section>
   </main>
-
+  <div class="modal-backdrop hidden" id="completeModal" role="dialog" aria-modal="true" aria-labelledby="completeTitle">
+    <div class="modal">
+      <p class="eyebrow">Practice complete</p>
+      <h2 id="completeTitle">Would you like to go to the next grammar practice unit?</h2>
+      <p id="completeCopy"></p>
+      <div class="modal-actions">
+        <button class="secondary" id="completeNo">No, back to Grammar</button>
+        <button class="primary" id="completeYes">Yes, next unit →</button>
+      </div>
+    </div>
+  </div>
   <script src="data.js"></script>
   <script src="app.js"></script>
 </body>
